@@ -5,22 +5,126 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>理容師国家試験対策</title>
 <style>
-:root{--bg:#fafafa;--ink:#20242c;--muted:#667085;--purple:#5c39d6;--purple2:#4a2eb7;--gold:#d08a00;--blue:#1d66d1;--pink:#d93673;--gray:#4b5563;--shadow:0 8px 22px rgba(25,22,40,.08)}
-*{box-sizing:border-box}body{margin:0;background:#111;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;color:var(--ink);line-height:1.65}.app{max-width:760px;margin:0 auto;min-height:100vh;background:#fff;box-shadow:0 8px 30px rgba(0,0,0,.18)}
-header{background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;text-align:center;padding:26px 16px 28px}h1{margin:0;font-size:clamp(1.65rem,5vw,2.15rem);font-weight:700;letter-spacing:.05em}
-main{padding:22px 16px 34px}.menu{display:grid;gap:16px}.card{display:flex;align-items:center;justify-content:space-between;min-height:92px;padding:18px 20px;border-radius:18px;text-decoration:none;background:#fff;color:var(--ink);box-shadow:var(--shadow);border:2px solid #e8e1f8;font-weight:700;font-size:clamp(1.05rem,4.5vw,1.42rem);letter-spacing:.02em}.card::after{content:'›';font-size:2.2rem;line-height:1;font-weight:800}.card small{display:block;font-size:.82rem;color:var(--muted);font-weight:600;margin-top:2px}.gold{border-color:#f3b83f;background:linear-gradient(180deg,#fffdf6,#fff)}.gold,.gold::after{color:#a66c00}.blue{border-color:#8bb8ff;background:linear-gradient(180deg,#f7fbff,#fff)}.blue,.blue::after{color:#1d66d1}.pink{border-color:#ff96bf;background:linear-gradient(180deg,#fff7fb,#fff)}.pink,.pink::after{color:#d93673}.gray{border-color:#d7dde6}.gray,.gray::after{color:#303846}.violet{border-color:#e2d6ff;background:linear-gradient(180deg,#fcfbff,#fff)}.violet,.violet::after{color:#20242c}.note{text-align:center;color:#667085;margin-top:26px;font-size:.95rem}@media(max-width:520px){body{background:#fff}.app{box-shadow:none}main{padding:20px 12px 30px}.card{min-height:86px;padding:16px 18px;border-radius:16px}}
+:root{
+  --bg:#fafafa;
+  --ink:#20242c;
+  --muted:#667085;
+  --purple:#5c39d6;
+  --purple2:#4a2eb7;
+  --gold:#d08a00;
+  --red:#c93a3a;
+  --green:#188a55;
+  --blue:#1d66d1;
+  --pink:#d93673;
+  --gray:#4b5563;
+  --violet:#6b4fd8;
+  --shadow:0 8px 22px rgba(25,22,40,.08);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:#111;
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;
+  color:var(--ink);
+  line-height:1.65;
+}
+.app{
+  max-width:760px;
+  margin:0 auto;
+  min-height:100vh;
+  background:#fff;
+  box-shadow:0 8px 30px rgba(0,0,0,.18);
+}
+header{
+  background:linear-gradient(135deg,var(--purple),var(--purple2));
+  color:#fff;
+  text-align:center;
+  padding:26px 16px 28px;
+}
+h1{
+  margin:0;
+  font-size:clamp(1.65rem,5vw,2.15rem);
+  font-weight:400;
+  letter-spacing:.05em;
+}
+main{padding:22px 16px 34px}
+.menu{display:grid;gap:16px}
+.card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  min-height:92px;
+  padding:18px 20px;
+  border-radius:18px;
+  text-decoration:none;
+  background:#fff;
+  color:var(--ink);
+  box-shadow:var(--shadow);
+  border:2px solid #e8e1f8;
+  font-weight:400;
+  font-size:clamp(1.05rem,4.5vw,1.42rem);
+  letter-spacing:.02em;
+}
+.card::after{
+  content:'›';
+  font-size:2.2rem;
+  line-height:1;
+  font-weight:400;
+}
+.card small{
+  display:block;
+  font-size:.82rem;
+  color:var(--muted);
+  font-weight:400;
+  margin-top:2px;
+}
+.gold{border-color:#f3b83f;background:linear-gradient(180deg,#fffdf6,#fff)}
+.gold,.gold::after{color:#a66c00}
+.red{border-color:#f3a4a4;background:linear-gradient(180deg,#fff7f7,#fff)}
+.red,.red::after{color:#c93a3a}
+.green{border-color:#9bd9b7;background:linear-gradient(180deg,#f7fff9,#fff)}
+.green,.green::after{color:#188a55}
+.blue{border-color:#8bb8ff;background:linear-gradient(180deg,#f7fbff,#fff)}
+.blue,.blue::after{color:#1d66d1}
+.pink{border-color:#ff96bf;background:linear-gradient(180deg,#fff7fb,#fff)}
+.pink,.pink::after{color:#d93673}
+.gray{border-color:#d7dde6}
+.gray,.gray::after{color:#303846}
+.violet{border-color:#e2d6ff;background:linear-gradient(180deg,#fcfbff,#fff)}
+.violet,.violet::after{color:#20242c}
+.note{
+  text-align:center;
+  color:#667085;
+  margin-top:26px;
+  font-size:.95rem;
+}
+@media(max-width:520px){
+  body{background:#fff}
+  .app{box-shadow:none}
+  main{padding:20px 12px 30px}
+  .card{min-height:86px;padding:16px 18px;border-radius:16px}
+}
 </style>
 </head>
-<body><div class="app"><header><h1>理容師国家試験対策</h1></header><main><div class="menu">
-<a class="card gold" href="関連法規/index.html#理容師法"><span>①-１理容師法・施行令・施行規則<small>免許・試験・理容所・出張理容の根拠</small></span></a>
-<a class="card gold" href="関連法規/index.html#感染症法"><span>①-２感染症法<small>感染症分類・人権配慮・施設管理</small></span></a>
-<a class="card gold" href="関連法規/index.html#地域保健法"><span>①-３地域保健法<small>保健所・地域保健対策</small></span></a>
-<a class="card gold" href="関連法規/index.html#消費者基本法"><span>①-４消費者基本法<small>情報提供・苦情対応・事業者責務</small></span></a>
-<a class="card gold" href="関連法規/index.html#出張理容"><span>①-５出張理容・出張美容衛生管理要領<small>作業環境・携行品・衛生管理</small></span></a>
-<a class="card blue" href="衛生保健/index.html"><span>②衛生・保健</span></a>
-<a class="card pink" href="理論運営/index.html"><span>③理論・運営</span></a>
-<a class="card gray" href="stats.html"><span>④正答率</span></a>
-<a class="card gold" href="bookmark.html"><span>⑤ブックマーク</span></a>
-<a class="card violet" href="過去問第１弾/index.html"><span>⑥過去問・第１弾</span></a>
-<a class="card violet" href="過去問第２弾/index.html"><span>⑦過去問・第２弾</span></a>
-</div><p class="note">GitHub Pages対応</p></main></div></body></html>
+<body>
+<div class="app">
+<header><h1>理容師国家試験対策</h1></header>
+<main>
+<div class="menu">
+<a class="card gold" href="関連法規/index.html#理容師法"><span>①理容師法・施行令・施行規則<small>免許・試験・理容所・出張理容の根拠</small></span></a>
+<a class="card red" href="関連法規/index.html#感染症法"><span>②感染症法<small>感染症分類・人権配慮・施設管理</small></span></a>
+<a class="card green" href="関連法規/index.html#地域保健法"><span>③地域保健法<small>保健所・地域保健対策</small></span></a>
+<a class="card blue" href="関連法規/index.html#消費者基本法"><span>④消費者基本法<small>情報提供・苦情対応・事業者責務</small></span></a>
+<a class="card violet" href="関連法規/index.html#出張理容"><span>⑤出張理容・出張美容衛生管理要領<small>作業環境・携行品・衛生管理</small></span></a>
+<a class="card blue" href="衛生保健/index.html"><span>⑥衛生・保健</span></a>
+<a class="card pink" href="理論運営/index.html"><span>⑦理論・運営</span></a>
+<a class="card gold" href="bookmark.html"><span>⑧ブックマーク</span></a>
+<a class="card violet" href="過去問第１弾/index.html"><span>⑨過去問①</span></a>
+<a class="card violet" href="過去問第２弾/index.html"><span>⑩過去問②</span></a>
+<a class="card gray" href="stats.html"><span>⑪正答率</span></a>
+</div>
+<p class="note">GitHub Pages対応</p>
+</main>
+</div>
+</body>
+</html>
