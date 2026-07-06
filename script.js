@@ -37,9 +37,64 @@ function renderHomeActions(){
  document.getElementById("homeBookmarkBtn").addEventListener("click",()=>renderFilteredList("🔖 ブックマーク",x=>bookmarks.has(x.id)));
 }
 function renderProgress(){
- const total=flat.length, importantTotal=flat.filter(x=>["★★★★★","★★★★","★★★"].includes(x.item.importance)).length, importantDone=flat.filter(x=>(["★★★★★","★★★★","★★★"].includes(x.item.importance))&&done.has(x.id)).length, doneLaws=DATA.filter((law,li)=>law.articles.length&&law.articles.every((a,ai)=>isDone(li,ai))).length, percent=total?Math.round(done.size/total*100):0;
- document.getElementById("doneCount").textContent=done.size+" / "+total;document.getElementById("importantDone").textContent=importantDone+" / "+importantTotal;document.getElementById("weakCount").textContent=weak.size;document.getElementById("doneLaws").textContent=doneLaws+" / "+DATA.length;document.getElementById("percent").textContent=percent+"%";document.getElementById("donut").style.background=`conic-gradient(#1266c3 0 ${percent}%,#e7ebf0 ${percent}% 100%)`;
+ const total=flat.length;
+ const doneTotal=done.size;
+ const percent=total?Math.round(doneTotal/total*100):0;
+ const undone=Math.max(total-doneTotal,0);
+
+ const countRank=(rank)=>{
+   const items=flat.filter(x=>x.item.importance===rank || x.item.stars===rank);
+   const learned=items.filter(x=>done.has(x.id)).length;
+   return {learned,total:items.length};
+ };
+ const ss=countRank("★★★★★");
+ const s=countRank("★★★★");
+ const a=countRank("★★★");
+
+ const doneLaws=DATA.filter((law,li)=>law.articles.length&&law.articles.every((a,ai)=>isDone(li,ai))).length;
+
+ document.getElementById("doneCount").textContent=doneTotal+" / "+total;
+ document.getElementById("undoneCount").textContent=undone;
+ document.getElementById("ssDone").textContent=ss.learned+" / "+ss.total;
+ document.getElementById("sDone").textContent=s.learned+" / "+s.total;
+ document.getElementById("aDone").textContent=a.learned+" / "+a.total;
+ document.getElementById("bookmarkCount").textContent=bookmarks.size;
+ document.getElementById("okCount").textContent=doneTotal;
+ document.getElementById("doneLaws").textContent=doneLaws+" / "+DATA.length;
+ document.getElementById("percent").textContent=percent+"%";
+ document.getElementById("donut").style.background=`conic-gradient(#1266c3 0 ${percent}%,#e7ebf0 ${percent}% 100%)`;
+
+ const lawBox=document.getElementById("lawProgressList");
+ if(lawBox){
+   lawBox.innerHTML="";
+   DATA.forEach((law,li)=>{
+     const totalLaw=law.articles.length;
+     const learned=law.articles.filter((x,ai)=>isDone(li,ai)).length;
+     const p=totalLaw?Math.round(learned/totalLaw*100):0;
+     const row=document.createElement("div");
+     row.className="progress-bar-row";
+     row.innerHTML=`<div class="progress-label"><span>${law.name}</span><strong>${p}%</strong></div><div class="bar"><span style="width:${p}%"></span></div><div class="progress-small">${learned} / ${totalLaw}</div>`;
+     lawBox.appendChild(row);
+   });
+ }
+
+ const fieldBox=document.getElementById("fieldProgressList");
+ if(fieldBox){
+   fieldBox.innerHTML="";
+   const fields=["衛生管理","保健","香粧品化学","文化論","運営管理","理容技術理論"];
+   fields.forEach(field=>{
+     const items=flat.filter(x=>(x.item.category||"").includes(field) || (x.item.title||"").includes(field));
+     if(!items.length)return;
+     const learned=items.filter(x=>done.has(x.id)).length;
+     const p=Math.round(learned/items.length*100);
+     const row=document.createElement("div");
+     row.className="progress-bar-row";
+     row.innerHTML=`<div class="progress-label"><span>${field}</span><strong>${p}%</strong></div><div class="bar"><span style="width:${p}%"></span></div><div class="progress-small">${learned} / ${items.length}</div>`;
+     fieldBox.appendChild(row);
+   });
+ }
 }
+
 function renderArticles(filter=""){
  const law=DATA[currentLaw];document.getElementById("lawTitle").textContent=law.name;const list=document.getElementById("articleList");list.innerHTML="";
  law.articles.forEach((a,i)=>{const hay=law.name+a.title+a.body+a.points.join("")+(a.traps||[]).join("")+(a.terms||[]).join("");if(filter&&!hay.includes(filter))return;const row=document.createElement("div");row.className="article-row";row.innerHTML=`<span class="article-title ${isDone(currentLaw,i)?"done":""} ${isWeak(currentLaw,i)?"weak":""} ${isBookmarked(currentLaw,i)?"bookmarked":""}">${a.title}</span><span class="stars">${a.importance||a.stars} ›</span>${actionButtons(currentLaw,i)}`;row.addEventListener("click",()=>{

@@ -33,12 +33,23 @@
       <h2>学習の進捗</h2>
       <div class="progress-content">
         <div id="donut" class="donut"><span id="percent">0%</span><small>全体の進捗</small></div>
-        <dl>
-          <dt>学習済み項目</dt><dd id="doneCount">0 / 0</dd>
-          <dt>重要項目</dt><dd id="importantDone">0 / 0</dd>
-          <dt>苦手条文</dt><dd id="weakCount">0</dd>
+        <dl class="progress-stats">
+          <dt>学習済み</dt><dd id="doneCount">0 / 0</dd>
+          <dt>未学習</dt><dd id="undoneCount">0</dd>
+          <dt>★★★★★ 最重要</dt><dd id="ssDone">0 / 0</dd>
+          <dt>★★★★ 重要</dt><dd id="sDone">0 / 0</dd>
+          <dt>★★★ 頻出</dt><dd id="aDone">0 / 0</dd>
+          <dt>🔖 要復習</dt><dd id="bookmarkCount">0</dd>
+          <dt>👍 完了</dt><dd id="okCount">0</dd>
           <dt>学習済み教材</dt><dd id="doneLaws">0 / 13</dd>
         </dl>
+      </div>
+      <div class="progress-extra">
+        <h3>教材別進捗</h3>
+        <div id="lawProgressList" class="progress-bars"></div>
+        <h3>分野別進捗</h3>
+        <div id="fieldProgressList" class="progress-bars"></div>
+      </div>
       </div>
     </section>
   </section>
