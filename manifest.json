@@ -1,1 +1,20 @@
-{"name":"理容師国家試験対策 ９法令 Ver.2","short_name":"９法令対策","start_url":"./index.html","display":"standalone","background_color":"#f5f7fb","theme_color":"#07356f","icons":[]}
+{
+  "name": "国家試験",
+  "short_name": "国家試験",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f5f7fb",
+  "theme_color": "#07356f",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

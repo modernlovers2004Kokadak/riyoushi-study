@@ -1,5 +1,5 @@
-const CACHE_NAME="riyoushi-9laws-final-v4-hygiene-plus";
-const ASSETS=["./","./index.html","./style.css?v=4","./script.js?v=4","./data.js?v=4","./manifest.json"];
+const CACHE_NAME="riyoushi-9laws-final-v5-kokka-icon";
+const ASSETS=["./","./index.html","./style.css?v=5","./script.js?v=5","./data.js?v=5","./manifest.json","./icon-192.png","./icon-512.png","./apple-touch-icon.png"];
 self.addEventListener("install",event=>{
   self.skipWaiting();
   event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(ASSETS)));
