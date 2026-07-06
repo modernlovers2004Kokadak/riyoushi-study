@@ -1,0 +1,212 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>関連法規 完成版</title>
+<style>
+*{box-sizing:border-box}
+:root{
+  --bg:#f7f7f8;
+  --card:#ffffff;
+  --ink:#202124;
+  --line:#e5e7eb;
+  --law:#f2f2f2;
+    --point:#fff8d9;
+  --quiz:#e9f9ea;
+  --exp:#f3ecff;
+  --accent:#5f6368;
+}
+html{font-size:16px}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  font-size:16px;
+  line-height:1.75;
+  padding-bottom:24px;
+  font-weight:400;
+}
+header{
+  background:#fff;
+  border-bottom:1px solid var(--line);
+  padding:18px 16px;
+}
+h1{
+  font-size:16px;
+  line-height:1.45;
+  margin:0;
+  font-weight:400;
+}
+main{
+  max-width:860px;
+  margin:0 auto;
+  padding:12px;
+}
+details{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:16px;
+  margin:10px 0;
+  overflow:hidden;
+}
+summary{
+  list-style:none;
+  cursor:pointer;
+  padding:14px 16px;
+  font-size:16px;
+  font-weight:400;
+}
+summary::-webkit-details-marker{display:none}
+.chapter>summary,
+.group>summary,
+.item>summary{
+  font-size:16px;
+  font-weight:400;
+  background:#fff;
+}
+.item>summary{
+  border-bottom:1px solid var(--line);
+}
+.content{
+  padding:12px;
+}
+.block{
+  font-size:16px;
+  font-weight:400;
+  line-height:1.75;
+  margin:10px 0;
+  padding:13px 14px;
+  border-radius:14px;
+  border:1px solid rgba(0,0,0,.06);
+  white-space:pre-wrap;
+}
+.block-label{
+  display:none;
+  font-size:16px;
+  font-weight:400;
+  margin:0 0 6px;
+  color:var(--accent);
+}
+.law{background:var(--law)}
+.point{background:var(--point); white-space:normal}
+.quiz{background:var(--quiz); white-space:normal}
+.exp{background:var(--exp); white-space:normal; display:none}
+.points{
+  margin:0;
+  padding-left:1.2em;
+}
+.points li{margin:3px 0}
+.stars{
+  display:inline-block;
+  font-size:16px;
+  font-weight:400;
+  color:#5f6368;
+  background:#f1f3f4;
+  border-radius:999px;
+  padding:1px 8px;
+  margin-left:6px;
+}
+.question{margin:0 0 8px}
+.choice{
+  display:block;
+  width:100%;
+  text-align:left;
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:12px;
+  padding:11px 12px;
+  margin:8px 0;
+  font-size:16px;
+  font-weight:400;
+  color:var(--ink);
+  line-height:1.6;
+}
+.choice.correct{background:#dff3e4;border-color:#188038}
+.choice.wrong{background:#fde8e8;border-color:#d93025}
+.done{
+  font-weight:400;
+  font-size:16px;
+  display:block;
+  margin-top:12px;
+}
+.done input{
+  width:20px;
+  height:20px;
+  vertical-align:middle;
+}
+@media(max-width:520px){
+  header{padding:16px 14px}
+  main{padding:10px}
+  summary{padding:13px 14px}
+  .content{padding:10px}
+  .block{padding:12px;margin:9px 0;border-radius:13px}
+}
+
+.nav-back{max-width:860px;margin:10px auto 0;padding:0 12px;}
+.nav-back a{display:inline-block;border:1px solid #e5e7eb;background:#fff;border-radius:999px;padding:8px 14px;text-decoration:none;color:#202124;font-size:15px;}
+.nav-back a:before{content:"← ";}
+
+
+<!-- 白マット視認性調整 --><style>
+:root{--bg:#faf9f6!important;--card:#fff!important;--ink:#171923!important;--line:#e8e1f8!important;--accent:#5b3cc4!important}
+body{background:#faf9f6!important;color:#171923!important;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif!important}
+header{background:linear-gradient(135deg,#6748d8,#4c32b4)!important;color:#fff!important;text-align:center!important;border-bottom:none!important}
+main{max-width:860px!important}.card,.section,.law,.box,details,.note{box-shadow:0 6px 18px rgba(32,24,72,.09)!important;border-color:#e8e1f8!important;border-radius:16px!important}
+a{color:#4c32b4}
+.nav-back{max-width:860px;margin:10px auto 0;padding:0 12px}.nav-back a{display:inline-block;border:1px solid #d9cff5;background:#fff;border-radius:999px;padding:8px 14px;text-decoration:none;color:#4c32b4;font-size:15px;font-weight:400;box-shadow:0 6px 18px rgba(32,24,72,.09)}.nav-back a:before{content:"← "}
+.bookmark{border:1px solid #d9cff5;background:#fff;border-radius:999px;padding:7px 10px;margin:10px 0;font-size:15px;color:#4c32b4}.bookmark.on{background:#fff8df;border-color:#e8c75f;color:#8a6500}
+</style>
+<script>
+(function(){
+const NS='riyouStudy:v3:';
+function pageKey(){return location.pathname.replace(/^\//,'');}
+window.studyKey=function(id){return NS+pageKey()+':'+id};
+window.studyRead=function(id){try{return JSON.parse(localStorage.getItem(studyKey(id))||'{}')}catch(e){return {}}};
+window.studySave=function(id, ok){const r=studyRead(id);r.answered=(r.answered||0)+1;r.correct=(r.correct||0)+(ok?1:0);r.wrong=(r.wrong||0)+(ok?0:1);r.last=Date.now();localStorage.setItem(studyKey(id),JSON.stringify(r));};
+window.studyDone=function(id,done){const r=studyRead(id);r.done=!!done;localStorage.setItem(studyKey(id),JSON.stringify(r));};
+window.studyBookmark=function(id,on){const r=studyRead(id);r.bookmark=!!on;localStorage.setItem(studyKey(id),JSON.stringify(r));};
+window.studyStats=function(ids){let answered=0,correct=0,done=0,wrong=0;ids.forEach(id=>{const r=studyRead(id); if(r.answered){answered++; correct+=(r.correct?1:0); wrong+=(r.wrong?1:0)} if(r.done)done++;}); return {answered,correct,done,wrong,rate:answered?Math.round(correct/answered*100):0,total:ids.length};};
+})();
+</script>
+</head><body><header><h1>理容師国家試験 20260704<br>第１章　関係法規</h1></header><nav class="nav-back"><a href="../index.html">教材一覧に戻る</a></nav><main id="app"></main>
+<script>
+const DATA=[{"title":"第１章　関係法規","groups":[{"title":"理容師法・施行令・施行規則","items":[{"title":"目的と定義の混同","importance":"★★★★★","original":"理容師法は、理容師の資格を定め、理容の業務を適正に規律し、公衆衛生の向上に資することを目的とする。理容とは、頭髪の刈込、顔そり等の方法により容姿を整えることをいう。","points":["目的は公衆衛生の向上","理容には顔そりが含まれる","理容所は理容の業を行う施設"],"question":"理容師法の目的と定義について、正しいものはどれか。","choices":["理容師法は、資格と業務規律を通じて公衆衛生の向上に資することを目的とする。","理容師法は、料金の統一と営業利益の保護を主目的とする。","理容とは、洗髪のみを反復継続して行うことをいう。","理容所とは、理容師免許を受けた個人そのものをいう。"],"answer":0,"explain":"目的規定は、資格・業務規律・公衆衛生の三点を押さえる。定義の入れ替えが典型的なひっかけ。"},{"title":"免許と試験の関係","importance":"★★★★★","original":"理容師試験に合格した者は、厚生労働大臣の免許を受けて理容師になることができる。理容師試験は、必要な知識及び技能について行う。","points":["合格だけでは理容師ではない","免許権者は厚生労働大臣","試験は知識と技能"],"question":"理容師になるまでの説明として、正しいものはどれか。","choices":["指定養成施設を修了すれば、試験を受けずに理容師になる。","理容師試験に合格し、厚生労働大臣の免許を受ける必要がある。","都道府県知事の営業許可を受ければ、理容師免許は不要である。","筆記試験に合格すれば、技能に関する確認は不要である。"],"answer":1,"explain":"合格と免許は別。免許は厚生労働大臣。試験は知識だけでなく技能も対象。"},{"title":"無免許業務の判断","importance":"★★★★★","original":"理容師でなければ、理容を業としてはならない。","points":["業として行う場合に免許が必要","無料でも反復継続性に注意","趣味と営業の区別"],"question":"次のうち、無免許業務として最も問題になりやすいものはどれか。","choices":["家族に一度だけ無償で整髪する。","理容師でない者が、継続的に客を集めて顔そりを行う。","理容師が理容所内で客一人ごとに器具を消毒する。","理容師が疾病により来店できない者に出張して理容を行う。"],"answer":1,"explain":"ポイントは『理容師でなければ』と『業として』。有償か無償かだけでなく、反復継続性も考える。"},{"title":"理容所以外での業務制限","importance":"★★★★★","original":"理容師は、原則として理容所以外の場所で業をしてはならない。ただし、政令で定める特別の事情がある場合は例外となる。","points":["原則は理容所内","例外は施行令で定める","本人の希望だけでは不可"],"question":"理容所以外の場所で業務を行うことについて、誤っているものはどれか。","choices":["疾病その他の理由で理容所に来ることができない者に行う場合は認められる。","婚礼その他の儀式に参列する者に、その儀式の直前に行う場合は認められる。","都道府県等が条例で定める場合は認められる。","理容師が出張営業を希望すれば、理由を問わず常に認められる。"],"answer":3,"explain":"出張理容は自由営業ではない。疾病等、婚礼等、条例で定める場合など、例外事由が必要。"},{"title":"出張理容の根拠の整理","importance":"★★★★★","original":"理容師法は理容所以外での業務を原則禁止し、施行令は例外の場合を定める。出張理容・出張美容衛生管理要領は衛生管理上の指針である。","points":["法は原則禁止","施行令は例外事由","通知は衛生管理の指針"],"question":"歩行困難な高齢者宅で理容を行う場合の理解として、最も適切なものはどれか。","choices":["消費者基本法に基づき、理由を問わず出張理容が認められる。","理容師法の原則禁止と施行令の例外事由を確認し、衛生管理要領に沿った措置を講じる。","地域保健法により、保健所の許可があれば理容師免許は不要となる。","感染症法により、すべての高齢者施設で自由に営業できる。"],"answer":1,"explain":"根拠法令を混同しない。出張できる場合と、出張時の衛生管理は別の論点。"},{"title":"客一人ごとの衛生措置","importance":"★★★★★","original":"理容師は、皮膚に接する布片及び器具を清潔に保ち、布片は客一人ごとに取り替え、器具は客一人ごとに消毒しなければならない。","points":["布片は客ごとに取り替え","器具は客ごとに消毒","血液付着時だけではない"],"question":"理容師の衛生措置として、正しいものはどれか。","choices":["皮膚に接する布片は一日一回交換すれば足りる。","器具の消毒は血液が付着したときだけでよい。","皮膚に接する布片は客一人ごとに取り替え、器具は客一人ごとに消毒する。","消毒設備の設置義務があるため、理容師本人の衛生措置は不要である。"],"answer":2,"explain":"『客一人ごと』が重要。布片は取り替え、器具は消毒。開設者の義務と理容師の義務を混同しない。"},{"title":"開設届と検査確認","importance":"★★★★★","original":"理容所を開設しようとする者は、あらかじめ必要事項を届け出る。理容所は、構造設備が基準に適合することの確認を受けた後でなければ使用してはならない。","points":["届出はあらかじめ","使用前に検査確認","営業開始後ではない"],"question":"理容所の開設手続について、正しいものはどれか。","choices":["開設届を提出すれば、検査確認前でも使用できる。","営業開始後三十日以内に届け出れば足りる。","あらかじめ届け出て、構造設備の基準適合確認を受けた後で使用する。","従業者の氏名は開設届の事項に含まれない。"],"answer":2,"explain":"届出と検査確認は別。『あらかじめ』と『使用前』を入れ替えた誤答に注意。"},{"title":"管理理容師の配置要件","importance":"★★★★★","original":"理容師である従業者の数が常時二人以上である理容所の開設者は、管理理容師を置かなければならない。管理理容師は、免許後三年以上業務に従事し、指定講習を修了した者でなければならない。","points":["常時二人以上","免許後三年以上","指定講習修了"],"question":"管理理容師について、正しいものはどれか。","choices":["常時一人の理容所でも、必ず管理理容師を置く。","常時二人以上の理容師が従事する理容所では、管理理容師を置く必要がある。","免許前の見習い期間も三年の実務経験に算入できる。","管理理容師には指定講習の修了は不要である。"],"answer":1,"explain":"人数要件は『常時二人以上』。経験は免許後三年以上で、指定講習修了も必要。"},{"title":"開設者と理容師の衛生義務","importance":"★★★★☆","original":"理容所の開設者は、理容所を常に清潔に保ち、消毒設備を設け、採光、照明及び換気を十分にしなければならない。","points":["開設者の義務","清潔・消毒設備・採光・照明・換気","理容師個人の器具消毒義務と区別"],"question":"理容所の開設者の衛生措置として、正しいものはどれか。","choices":["布片を客一人ごとに取り替える義務だけが定められている。","理容所を清潔に保ち、消毒設備、採光、照明及び換気を十分にする。","器具を客一人ごとに消毒すれば、換気は不要である。","開設者が理容師でない場合、衛生措置義務は生じない。"],"answer":1,"explain":"理容師個人の衛生措置と、開設者の施設管理義務を分けて覚える。"},{"title":"届出先のひっかけ","importance":"★★★★☆","original":"理容所の開設届や検査確認は、都道府県知事、保健所を設置する市の市長又は特別区の区長の所管となる。","points":["厚生労働大臣と都道府県等を区別","免許と開設を区別","保健所設置市・特別区に注意"],"question":"届出先・権限の組合せとして、最も適切なものはどれか。","choices":["理容師免許 - 市町村長、理容所開設届 - 厚生労働大臣","理容師免許 - 厚生労働大臣、理容所開設届 - 都道府県知事等","理容師免許 - 保健所長、理容所開設届 - 消費者庁長官","理容師免許 - 都道府県知事、理容所開設届 - 指定試験機関"],"answer":1,"explain":"免許は厚生労働大臣。理容所の開設・検査は都道府県知事等。届出先の入れ替えが頻出。"},{"title":"免許証再交付後の返納","importance":"★★★☆☆","original":"免許証又は免許証明書を失って再交付を受けた後、失った免許証又は免許証明書を発見したときは、五日以内に返納しなければならない。","points":["再交付後に発見","五日以内","厚生労働大臣へ返納"],"question":"免許証の再交付後に失った免許証を発見した場合の対応として、正しいものはどれか。","choices":["発見した免許証は記念として保管できる。","発見後三十日以内に理容所の開設者へ提出する。","発見後五日以内に返納する。","次回更新時まで返納を猶予される。"],"answer":2,"explain":"数字のひっかけ。登録事項変更の三十日以内と混同しない。"},{"title":"名簿訂正の期限","importance":"★★★★☆","original":"理容師は、理容師名簿の登録事項に変更を生じたときは、三十日以内に名簿の訂正を申請しなければならない。","points":["登録事項変更","三十日以内","再交付後発見の五日以内と区別"],"question":"理容師名簿の登録事項に変更が生じた場合について、正しいものはどれか。","choices":["変更が生じたときは、三十日以内に名簿訂正を申請する。","変更が生じても、免許証を使用していれば申請不要である。","変更が生じたときは、五日以内に保健所へ口頭で届け出る。","変更申請は理容所の開設者だけが行う。"],"answer":0,"explain":"三十日以内。免許証再交付後に失った免許証を発見した場合の五日以内と区別する。"},{"title":"受験手数料の数字","importance":"★★★☆☆","original":"施行令では、受験手数料は筆記試験一万五千九百円、実技試験一万八千八百円とされている。","points":["筆記 一万五千九百円","実技 一万八千八百円","登録等手数料と混同しない"],"question":"理容師試験の受験手数料として、正しい組合せはどれか。","choices":["筆記一万八千八百円、実技一万五千九百円","筆記一万五千九百円、実技一万八千八百円","筆記五千二百円、実技三千七百五十円","筆記三千七百五十円、実技四千百五十円"],"answer":1,"explain":"筆記と実技の金額を入れ替えた選択肢に注意。"},{"title":"登録等手数料の数字","importance":"★★★☆☆","original":"登録等の手数料は、理容師の登録五千二百円、記載事項の変更三千七百五十円、再交付四千百五十円である。","points":["登録 五千二百円","変更 三千七百五十円","再交付 四千百五十円"],"question":"登録等の手数料について、正しいものはどれか。","choices":["理容師の登録は四千百五十円である。","記載事項の変更は五千二百円である。","再交付は三千七百五十円である。","理容師の登録は五千二百円である。"],"answer":3,"explain":"登録・変更・再交付の金額を入れ替えた誤答に注意。"}]},{"title":"出張理容・出張美容衛生管理要領","items":[{"title":"作業場所の区分","importance":"★★★★★","original":"不特定多数が利用する施設等で出張理容を行う場合は、作業及び衛生保持に支障を来さないよう、不特定多数が出入りする場所から区分された専用の作業室などで行うことが望ましい。","points":["不特定多数の場所と区分","専用の作業室が望ましい","衛生保持を優先"],"question":"出張理容の作業環境として、最も適切なものはどれか。","choices":["通路や食堂など、人の出入りが多い場所で行うのが望ましい。","不特定多数が出入りする場所から区分された作業場所で行うのが望ましい。","作業場所は利用者の希望だけで決め、衛生保持は考慮しなくてよい。","屋外であれば、採光や換気は一切確認しなくてよい。"],"answer":1,"explain":"『望ましい』の表現も、国家試験では衛生上適切な対応として問われる。"},{"title":"床・腰張りとシート","importance":"★★★★☆","original":"作業場の床及び腰張りは不浸透性材料が望ましく、これによらない場合はビニールなど不浸透性材料のシートの上で作業を行う。","points":["不浸透性材料","ビニールシートで補う","清掃・消毒しやすい環境"],"question":"出張理容の作業場について、正しいものはどれか。","choices":["畳やじゅうたんの上であっても、毛髪を集めれば不浸透性材料の配慮は不要である。","不浸透性材料でない場合は、不浸透性材料のシートの上で作業する。","床材は利用者の好みを優先し、衛生面は問われない。","不浸透性材料の使用は理容所だけに関係し、出張理容では不要である。"],"answer":1,"explain":"出張でも作業環境の衛生確保が必要。施設内だから簡略化できるわけではない。"},{"title":"採光・照明・換気","importance":"★★★★★","original":"作業場内の採光、照明及び換気を十分にする。","points":["採光","照明","換気"],"question":"出張理容の作業環境で、要領に沿うものはどれか。","choices":["短時間作業であれば換気は不要である。","照明は利用者の希望があれば暗くしても衛生上問題ない。","採光、照明及び換気を十分にする。","理容所以外では採光、照明及び換気は求められない。"],"answer":2,"explain":"理容所の衛生措置とも共通する重要語。採光・照明・換気をセットで覚える。"},{"title":"携行品の考え方","importance":"★★★★☆","original":"出張理容を行う際には、作業に必要な器具、消毒に必要な薬品・器材、清潔な布片、汚物入れなど、衛生保持に必要なものを携行する。","points":["必要器具","消毒用品","清潔な布片・汚物入れ"],"question":"出張理容の携行品について、最も適切なものはどれか。","choices":["訪問先に備品がある前提で、消毒用品は携行しなくてよい。","作業器具だけでなく、消毒や汚物処理に必要なものも携行する。","布片は洗濯済みであれば人数分を用意する必要はない。","器具の消毒は帰宅後だけ行えば足りる。"],"answer":1,"explain":"出張理容では、理容所と同等に衛生措置を実施できる準備が必要。"},{"title":"器具の区分管理","importance":"★★★★☆","original":"消毒済みの器具と使用済みの器具は区分して取り扱い、汚染が広がらないよう管理する。","points":["消毒済みと使用済みを区分","交差汚染を防ぐ","ケースや容器の使い分け"],"question":"出張理容での器具管理として、誤っているものはどれか。","choices":["消毒済みの器具と使用済みの器具を区分する。","使用済み器具は、消毒済み器具と同じケースに戻してよい。","使用後の器具は適切に消毒する。","清潔な器具を汚染しないよう容器を分ける。"],"answer":1,"explain":"清潔・不潔の区分が基本。『同じケースに戻す』は典型的な誤答。"},{"title":"施設側の事情との関係","importance":"★★★☆☆","original":"出張理容を行う場合でも、作業環境、携行品、消毒、従業者の健康管理等により衛生の確保及び向上を図る。","points":["施設任せにしない","作業者側の衛生管理","健康管理も対象"],"question":"介護施設で出張理容を行う場合の考え方として、最も適切なものはどれか。","choices":["施設で行うため、理容師側の衛生管理は不要である。","施設の清掃担当者がいれば、器具消毒を省略できる。","施設側の事情に関係なく、作業環境や消毒等の衛生管理を確保する。","利用者が高齢者であれば、布片の交換は二人ごとでよい。"],"answer":2,"explain":"訪問先が施設でも、理容師側の衛生管理義務・配慮はなくならない。"}]},{"title":"感染症法","items":[{"title":"感染症法の目的","importance":"★★★★★","original":"感染症法は、感染症の発生を予防し、まん延の防止を図り、公衆衛生の向上及び増進を図ることを目的とする。","points":["発生予防","まん延防止","公衆衛生の向上・増進"],"question":"感染症法の目的として、正しいものはどれか。","choices":["感染症患者の隔離だけを目的とする。","感染症の発生予防とまん延防止を図り、公衆衛生の向上及び増進を図る。","理容所の構造設備基準だけを定める。","消費者と事業者の交渉力格差だけを是正する。"],"answer":1,"explain":"目的条文では『発生予防』『まん延防止』『公衆衛生』が中心。"},{"title":"人権尊重と感染症対策","importance":"★★★★☆","original":"感染症対策は、感染症の患者等の人権を尊重しつつ、総合的かつ計画的に推進される。","points":["人権尊重","総合的・計画的","差別防止"],"question":"感染症対策の基本理念として、最も適切なものはどれか。","choices":["感染症対策では、患者等の人権より営業上の都合を常に優先する。","感染症対策では、患者等の人権を尊重しつつ予防とまん延防止を進める。","感染症患者に関する情報は、理容所内で自由に掲示できる。","感染症の疑いがあれば、本人説明は不要で一律にサービスを拒否する。"],"answer":1,"explain":"感染症対策と人権尊重はセット。差別的対応を正解にしない。"},{"title":"国民の責務","importance":"★★★★☆","original":"国民は、感染症に関する正しい知識を持ち、予防に必要な注意を払うよう努めるとともに、感染症患者等の人権が損なわれないようにしなければならない。","points":["正しい知識","予防に必要な注意","人権配慮"],"question":"国民の責務として、正しいものはどれか。","choices":["感染症に関する知識は医師だけが持てばよい。","感染症患者等の人権への配慮は不要である。","正しい知識を持ち、予防に必要な注意を払うよう努める。","感染症の予防は地方公共団体だけの責務である。"],"answer":2,"explain":"理容師も国民であり、正しい知識と人権配慮を前提に対応する。"},{"title":"施設管理者の責務","importance":"★★★★☆","original":"病院、診療所、病原体等の検査機関、老人福祉施設等の開設者及び管理者は、感染症が発生し、又はまん延しないよう必要な措置を講ずるよう努めなければならない。","points":["老人福祉施設等も対象","発生・まん延防止","努力義務"],"question":"老人福祉施設で出張理容を行う場面について、最も適切な理解はどれか。","choices":["施設管理者には感染症の発生・まん延防止に関する配慮が求められる。","施設での感染症対策は理容師だけの責任で、施設管理者には関係しない。","感染症法は理容師法を廃止する法律である。","感染症法により、施設では器具消毒が不要となる。"],"answer":0,"explain":"施設管理者の努力義務と、理容師の衛生措置は両方必要。"},{"title":"感染症分類の基本","importance":"★★★★☆","original":"感染症法では、一類感染症、二類感染症、三類感染症、四類感染症、五類感染症、新型インフルエンザ等感染症、指定感染症及び新感染症を感染症として定義している。","points":["一類から五類","新型インフルエンザ等感染症","指定感染症・新感染症"],"question":"感染症法上の感染症の分類として、含まれないものはどれか。","choices":["一類感染症","三類感染症","指定感染症","理容所感染症"],"answer":3,"explain":"『理容所感染症』という分類はない。もっともらしい造語に注意。"},{"title":"一類感染症の例","importance":"★★★☆☆","original":"一類感染症には、エボラ出血熱、クリミア・コンゴ出血熱、痘そう、南米出血熱、ペスト、マールブルグ病、ラッサ熱が含まれる。","points":["エボラ出血熱","痘そう","ペスト"],"question":"一類感染症に該当するものはどれか。","choices":["梅毒","結核","ペスト","インフルエンザ"],"answer":2,"explain":"ペストは一類感染症。結核は二類、梅毒と通常のインフルエンザは五類に分類される。"},{"title":"二類と三類の混同","importance":"★★★★☆","original":"二類感染症には結核などが含まれ、三類感染症にはコレラ、細菌性赤痢、腸管出血性大腸菌感染症、腸チフス、パラチフスが含まれる。","points":["結核は二類","腸管出血性大腸菌感染症は三類","分類の入れ替えに注意"],"question":"感染症分類の組合せとして、正しいものはどれか。","choices":["結核 - 三類感染症","腸管出血性大腸菌感染症 - 三類感染症","ペスト - 五類感染症","梅毒 - 一類感染症"],"answer":1,"explain":"結核と腸管出血性大腸菌感染症の分類を混同しやすい。"},{"title":"五類感染症の例","importance":"★★★☆☆","original":"五類感染症には、インフルエンザ、ウイルス性肝炎、後天性免疫不全症候群、性器クラミジア感染症、梅毒、麻しんなどが含まれる。","points":["梅毒","麻しん","通常のインフルエンザ"],"question":"五類感染症に該当するものはどれか。","choices":["エボラ出血熱","結核","コレラ","梅毒"],"answer":3,"explain":"梅毒は五類感染症。選択肢に強い感染症名が並ぶと迷いやすい。"}]},{"title":"地域保健法・消費者基本法","items":[{"title":"地域保健法の目的","importance":"★★★★☆","original":"地域保健法は、地域保健対策が地域において総合的に推進されることを確保し、地域住民の健康の保持及び増進に寄与することを目的とする。","points":["地域保健対策","地域住民の健康","保持・増進"],"question":"地域保健法の目的として、正しいものはどれか。","choices":["理容師免許の交付手続だけを定める。","地域保健対策の総合的推進を確保し、地域住民の健康の保持及び増進に寄与する。","感染症患者の入院医療だけを定める。","消費者契約の取消しだけを定める。"],"answer":1,"explain":"地域保健法は保健所や地域保健対策の基本法。理容師法や感染症法と目的を混同しない。"},{"title":"保健所の設置主体","importance":"★★★★★","original":"保健所は、都道府県、指定都市、中核市その他の政令で定める市又は特別区が設置する。","points":["都道府県","指定都市・中核市等","特別区"],"question":"保健所の設置主体として、正しいものはどれか。","choices":["都道府県、指定都市、中核市その他の政令で定める市又は特別区","すべての町内会","すべての理容所の開設者","指定試験機関"],"answer":0,"explain":"保健所の設置主体は、都道府県等。理容所や指定試験機関ではない。"},{"title":"保健所の業務","importance":"★★★★☆","original":"保健所は、地域保健に関する思想の普及、人口動態統計、栄養改善・食品衛生、住宅・水道・廃棄物処理等の環境衛生などについて、企画、調整、指導及び必要な事業を行う。","points":["企画・調整・指導","食品衛生・環境衛生","地域保健の普及"],"question":"保健所の業務として、最も適切なものはどれか。","choices":["理容師試験の合否判定を行う。","地域保健、食品衛生、環境衛生等について企画、調整、指導等を行う。","理容料金を全国一律に決定する。","すべての理容師に雇用契約をあっせんする。"],"answer":1,"explain":"保健所は地域の公衆衛生行政の中心。試験機関や料金決定機関ではない。"},{"title":"消費者基本法の目的","importance":"★★★☆☆","original":"消費者基本法は、消費者と事業者との間の情報の質・量及び交渉力等の格差を踏まえ、消費者の利益の擁護及び増進を図る。","points":["情報格差・交渉力格差","消費者の利益","総合的施策"],"question":"消費者基本法の目的として、正しいものはどれか。","choices":["事業者の利益を常に消費者より優先する。","消費者と事業者との情報・交渉力等の格差を踏まえ、消費者の利益の擁護及び増進を図る。","理容師試験の受験資格を定める。","感染症の分類を定める。"],"answer":1,"explain":"消費者基本法は、理容師法や感染症法とは目的が異なる。"},{"title":"事業者の責務","importance":"★★★★☆","original":"事業者は、消費者の安全及び取引の公正を確保し、必要な情報を明確かつ平易に提供し、消費者の知識、経験及び財産の状況等に配慮する責務を有する。","points":["安全・公正","明確かつ平易な情報提供","知識・経験・財産状況への配慮"],"question":"理容サービス提供時の消費者対応として、消費者基本法の趣旨に最も合うものはどれか。","choices":["専門用語だけで説明し、理解できない利用者には説明しない。","料金やサービス内容を明確に説明し、利用者の知識や状況に配慮する。","苦情が出ても、契約後であれば対応しない。","高齢者には説明を省略して、事業者判断で追加サービスを行う。"],"answer":1,"explain":"理容業でも、利用者への情報提供と配慮は重要。『平易に提供』を見落とさない。"},{"title":"苦情処理の体制","importance":"★★★☆☆","original":"事業者は、消費者との間に生じた苦情を適切かつ迅速に処理するために必要な体制の整備等に努め、苦情を適切に処理する責務を有する。","points":["苦情処理","適切かつ迅速","体制整備"],"question":"苦情対応として、消費者基本法の趣旨に反するものはどれか。","choices":["苦情を適切かつ迅速に処理する体制を整える。","苦情内容を確認し、必要に応じて改善につなげる。","苦情はすべて利用者の自己責任として無視する。","利用者に必要な情報を明確に提供する。"],"answer":2,"explain":"苦情処理は事業者の責務。無視する対応は不適切。"},{"title":"横断問題：法令の役割","importance":"★★★★★","original":"理容師法、感染症法、地域保健法、消費者基本法は目的と役割が異なる。","points":["理容師法＝資格・業務規律","感染症法＝予防・まん延防止","消費者基本法＝消費者利益"],"question":"法令と主な内容の組合せとして、正しいものはどれか。","choices":["理容師法 - 感染症の分類","感染症法 - 理容所の開設届","地域保健法 - 保健所の設置・地域保健対策","消費者基本法 - 理容師免許の交付"],"answer":2,"explain":"複数法令の横断問題では、目的と役割を対応させる。"},{"title":"ケース問題：出張理容と消費者対応","importance":"★★★★☆","original":"出張理容では、理容師法上の出張可否、衛生管理要領上の衛生措置、消費者基本法上の情報提供・苦情対応を分けて考える。","points":["出張可否","衛生措置","説明・苦情対応"],"question":"高齢者施設で出張理容を行う際の対応として、最も適切なものはどれか。","choices":["出張できる場合に当たれば、料金説明や衛生管理は不要である。","施設内であれば、理容師法上の制限は一切受けない。","出張できる根拠を確認し、衛生管理を行い、料金や内容を明確に説明する。","感染症対策は施設の責任であり、理容師は器具消毒を省略できる。"],"answer":2,"explain":"実務ケースでは、法令を一つにまとめず、出張可否・衛生・消費者対応を分けて判断する。"}]}]}];
+const PAGE_ID="関連法規/index.html";
+window.studyKey=function(id){return 'riyouStudy:v3:'+PAGE_ID+':'+id};
+const app=document.getElementById('app');
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+function allItems(){let a=[]; if(Array.isArray(DATA)){DATA.forEach(ch=>(ch.groups||[]).forEach(g=>(g.items||[]).forEach(it=>a.push(it))))}else{(DATA.groups||[]).forEach(g=>(g.items||[]).forEach(it=>a.push(it)))} return a;}
+function qid(it,idx){return 'q'+idx}
+function render(){const ids=allItems().map((_,i)=>qid(_,i));app.innerHTML=`<section class="toolbar"><button onclick="openAll()">すべて開く</button><button onclick="closeAll()">すべて閉じる</button><button class="wrong-random" onclick="showWrongRandom()">間違えた問題をランダムに表示</button><button onclick="resetMarks()">学習記録を消す</button></section><div id="randomBox"></div>`+(Array.isArray(DATA)?DATA.map(ch=>`<details class="chapter" open><summary>${esc(ch.title)}</summary><div class="content">${(ch.groups||[]).map(g=>`<details class="group" open><summary>${esc(g.title)}<span class="count">${g.items.length}問</span></summary><div class="content">${g.items.map((it)=>itemHtml(it,allItems().indexOf(it))).join('')}</div></details>`).join('')}</div></details>`).join(''):(DATA.groups||[]).map(g=>`<details class="group" open><summary>${esc(g.title)}<span class="count">${g.items.length}問</span></summary><div class="content">${g.items.map((it)=>itemHtml(it,allItems().indexOf(it))).join('')}</div></details>`).join(''));bindChecks();}
+function itemHtml(it,idx){const id=qid(it,idx), r=studyRead(id), checked=r.done?'checked':'', bm=r.bookmark?' on':'';const title=it.no?`${esc(it.no)}　${esc(it.topic)}`:esc(it.title);const lv=it.level||it.importance||''; const extra=it.original?`<section class="block law">${esc(it.original)}</section><section class="block point"><ul class="points">${(it.points||[]).map(p=>`<li>${esc(p)}</li>`).join('')}</ul></section>`:''; const exp=it.original?`<section class="block exp">答え：${it.answer+1}<br>${esc(it.explain)}</section>`:`<details class="answerbox"><summary>正解を表示</summary><div>正解：${it.answer+1}</div></details><details class="expbox"><summary>解説を表示</summary><div>${esc(it.explain)}<br><br>この問題で覚えること：${esc(it.memory||'')}<br>ひっかけポイント：${esc(it.trap||'')}</div></details>`;return `<details class="item" data-qid="${id}"><summary>${title}<span class="stars">${esc(lv)}</span></summary><div class="content">${extra}<section class="block quiz"><p class="question">${esc(it.question)}</p>${it.choices.map((c,i)=>`<button class="choice" onclick="answer(this,${i},${it.answer},'${id}')">${i+1}　${esc(c)}</button>`).join('')}</section>${exp}<button class="bookmark${bm}" data-bookmark="${id}" onclick="toggleBookmark(this,'${id}')">${r.bookmark?'★ ブックマーク済み':'☆ ブックマーク'}</button><label class="done"><input type="checkbox" data-id="${id}" ${checked}> 学習済み</label></div></details>`;}
+function answer(btn,val,ans,id){const ok=val===ans;const q=btn.closest('.quiz');q.querySelectorAll('.choice').forEach((b,i)=>{b.classList.remove('correct','wrong','selected');if(i===ans)b.classList.add('correct');});btn.classList.add('selected');if(!ok)btn.classList.add('wrong');studySave(id,ok);const c=btn.closest('.content');const exp=c.querySelector('.exp');if(exp)exp.style.display='block';const ab=c.querySelector('.answerbox');if(ab)ab.open=true;const eb=c.querySelector('.expbox');if(eb)eb.open=true;updatePageStats();}
+function toggleBookmark(btn,id){const on=!btn.classList.contains('on');btn.classList.toggle('on',on);btn.textContent=on?'★ ブックマーク済み':'☆ ブックマーク';studyBookmark(id,on);}
+function bindChecks(){document.querySelectorAll('input[data-id]').forEach(ch=>{ch.onchange=()=>{studyDone(ch.dataset.id,ch.checked);updatePageStats();};});}
+function updatePageStats(){}
+function showWrongRandom(){const items=allItems().map((it,i)=>({it,idx:i,id:qid(it,i),r:studyRead(qid(it,i))})).filter(x=>(x.r.wrong||0)>0);const box=document.getElementById('randomBox');if(!items.length){box.innerHTML='<section class="wrong-empty">間違えた問題はまだありません。</section>';return;}const pick=items[Math.floor(Math.random()*items.length)];box.innerHTML='<details class="item" open><summary>間違えた問題からランダム表示</summary><div class="content">'+itemHtml(pick.it,pick.idx)+'</div></details>';}
+function openAll(){document.querySelectorAll('details').forEach(d=>d.open=true)}
+function closeAll(){document.querySelectorAll('details.item').forEach(d=>d.open=false)}
+function resetMarks(){if(confirm('学習記録を消しますか')){Object.keys(localStorage).filter(k=>k.startsWith('riyouStudy:v3:'+PAGE_ID+':')).forEach(k=>localStorage.removeItem(k));render();}}
+render();
+</script>
+<script>
+(function(){
+function setLawAnchors(){
+  const map=[
+    ['理容師法・施行令・施行規則','理容師法'],
+    ['感染症法','感染症法'],
+    ['地域保健法・消費者基本法','地域保健法'],
+    ['出張理容・出張美容衛生管理要領','出張理容']
+  ];
+  document.querySelectorAll('details.group').forEach(d=>{
+    const text=(d.querySelector('summary')?.textContent||'').trim();
+    for(const [key,id] of map){ if(text.includes(key)){ d.id=id; } }
+    if(text.includes('地域保健法・消費者基本法') && !document.getElementById('消費者基本法')){
+      const s=document.createElement('span'); s.id='消費者基本法'; s.style.display='block'; s.style.height='1px'; d.parentNode.insertBefore(s,d);
+    }
+  });
+  const hash=decodeURIComponent(location.hash.replace('#',''));
+  if(hash){ const el=document.getElementById(hash); if(el){ setTimeout(()=>el.scrollIntoView({block:'start'}),80); } }
+}
+window.addEventListener('load',setLawAnchors);
+setTimeout(setLawAnchors,150);
+})();
+</script>
+</body></html>
