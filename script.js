@@ -40,10 +40,15 @@ function renderProgress(){
  const total=flat.length;
  const importantTotal=flat.filter(x=>x.item.stars==="★★★").length;
  const importantDone=flat.filter(x=>x.item.stars==="★★★" && done.has(x.id)).length;
+ const doneLaws=DATA.filter((law,li)=>{
+   const lawItems=flat.filter(x=>x.law===li);
+   return lawItems.length>0 && lawItems.every(x=>done.has(x.id));
+ }).length;
  const percent=total?Math.round(done.size/total*100):0;
  document.getElementById("articleCount").textContent=total+" 条文";
- document.getElementById("doneArticles").textContent=done.size+" 条文";
+ document.getElementById("doneArticles").textContent=done.size+" / "+total;
  document.getElementById("importantDone").textContent=importantDone+" / "+importantTotal;
+ document.getElementById("doneLaws").textContent=doneLaws+" / 9";
  document.getElementById("percent").textContent=percent+"%";
  document.getElementById("donut").style.background=`conic-gradient(#1266c3 0 ${percent}%,#e7ebf0 ${percent}% 100%)`;
 }
@@ -160,5 +165,24 @@ document.getElementById("searchInput").addEventListener("input",e=>{
    list.appendChild(card);
  });
 });
+
+const homeSearch=document.getElementById("homeSearchInput");
+if(homeSearch){
+ homeSearch.addEventListener("input",e=>{
+   const q=e.target.value.trim();
+   if(!q){return}
+   show("important");
+   const list=document.getElementById("importantList");
+   list.innerHTML="";
+   flat.filter(x=>(DATA[x.law].name+x.item.title+x.item.body+x.item.points.join("")).includes(q)).forEach(x=>{
+     const card=document.createElement("div");
+     card.className="important-card";
+     card.innerHTML=`<span>${DATA[x.law].name}　${x.item.title}</span><div class="stars">${x.item.stars}</div><small>${x.item.body.slice(0,70)}…</small>`;
+     card.addEventListener("click",()=>openArticle(x.law,x.chapter,x.article));
+     list.appendChild(card);
+   });
+ });
+}
+
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}
 initHome();

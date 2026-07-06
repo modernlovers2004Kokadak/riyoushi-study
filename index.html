@@ -22,20 +22,33 @@
 
 <main class="app">
   <section class="screen active" id="home">
-    <section class="law-card">
-      <div class="law-list" id="lawList"></div>
+    <section class="home-section">
+      <h2>検索</h2>
+      <div class="home-search">
+        <input id="homeSearchInput" type="search" placeholder="条文・キーワードで検索">
+      </div>
     </section>
 
-    <section class="card progress-bottom">
-      <h2>学習の進捗</h2>
-      <div class="progress-content">
-        <div class="donut" id="donut"><span id="percent">0%</span><small>全体の進捗</small></div>
-        <dl>
-          <dt>学習済み</dt><dd id="doneArticles">0 条文</dd>
-          <dt>重要条文</dt><dd id="importantDone">0 / 0</dd>
-          <dt>収録条文</dt><dd id="articleCount">0 条文</dd>
-        </dl>
-      </div>
+    <section class="home-section">
+      <h2>法令一覧</h2>
+      <section class="law-card">
+        <div class="law-list" id="lawList"></div>
+      </section>
+    </section>
+
+    <section class="home-section">
+      <section class="card progress-bottom">
+        <h2>学習の進捗</h2>
+        <div class="progress-content">
+          <div class="donut" id="donut"><span id="percent">0%</span><small>全体の進捗</small></div>
+          <dl>
+            <dt>学習済み条文</dt><dd id="doneArticles">0 条文</dd>
+            <dt>重要条文</dt><dd id="importantDone">0 / 0</dd>
+            <dt>学習済み法令</dt><dd id="doneLaws">0 / 9</dd>
+            <dt>収録条文</dt><dd id="articleCount">0 条文</dd>
+          </dl>
+        </div>
+      </section>
     </section>
   </section>
 
