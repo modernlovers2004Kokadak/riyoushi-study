@@ -10,7 +10,7 @@ function show(id){document.querySelectorAll(".screen").forEach(s=>s.classList.re
 function save(){localStorage.setItem(DONE_KEY,JSON.stringify([...done]));localStorage.setItem(WEAK_KEY,JSON.stringify([...weak]));renderHome();renderArticles();updateButtons();}
 function isDone(li,ai){return done.has(`${li}-${ai}`);} function isWeak(li,ai){return weak.has(`${li}-${ai}`);}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]));}
-function highlight(s,terms=[]){return escapeHtml(s);}
+function highlight(s,terms=[]){let out=escapeHtml(s);terms.forEach(t=>{if(!t)return;out=out.replaceAll(escapeHtml(t),`<span class="term">${escapeHtml(t)}</span>`)});return out;}
 function bodyHtml(text,terms){const parts=text.split(/ (?=[一二三四五六七八九十１２３４５６７８９０0-9]+[ 　])/);if(parts.length<=1)return `<p>${highlight(text,terms)}</p>`;const first=parts.shift();return `<p>${highlight(first,terms)}</p><ul class="body-list">`+parts.map(p=>`<li>${highlight(p.replace(/^[一二三四五六七八九十１２３４５６７８９０0-9]+[ 　]/,""),terms)}</li>`).join("")+`</ul>`;}
 function applyMode(){document.body.classList.remove("mode-text","mode-point");if(mode==="text")document.body.classList.add("mode-text");if(mode==="point")document.body.classList.add("mode-point");localStorage.setItem("study_mode",mode);}
 function renderHome(){
