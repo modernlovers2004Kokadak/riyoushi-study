@@ -1,5 +1,5 @@
-const CACHE_NAME="riyoushi-9laws-final-v3-no-top-tools";
-const ASSETS=["./","./index.html","./style.css?v=3","./script.js?v=3","./data.js?v=3","./manifest.json"];
+const CACHE_NAME="riyoushi-9laws-final-v4-hygiene-plus";
+const ASSETS=["./","./index.html","./style.css?v=4","./script.js?v=4","./data.js?v=4","./manifest.json"];
 self.addEventListener("install",event=>{
   self.skipWaiting();
   event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(ASSETS)));
