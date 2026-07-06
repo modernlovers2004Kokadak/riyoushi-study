@@ -12,7 +12,7 @@ function isDone(li,ai){return done.has(`${li}-${ai}`);} function isWeak(li,ai){r
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]));}
 function highlight(s,terms=[]){let out=escapeHtml(s);terms.forEach(t=>{if(!t)return;out=out.replaceAll(escapeHtml(t),`<span class="term">${escapeHtml(t)}</span>`)});return out;}
 function bodyHtml(text,terms){const parts=text.split(/ (?=[一二三四五六七八九十１２３４５６７８９０0-9]+[ 　])/);if(parts.length<=1)return `<p>${highlight(text,terms)}</p>`;const first=parts.shift();return `<p>${highlight(first,terms)}</p><ul class="body-list">`+parts.map(p=>`<li>${highlight(p.replace(/^[一二三四五六七八九十１２３４５６７８９０0-9]+[ 　]/,""),terms)}</li>`).join("")+`</ul>`;}
-function applyMode(){document.body.classList.remove("mode-text","mode-point");if(mode==="text")document.body.classList.add("mode-text");if(mode==="point")document.body.classList.add("mode-point");document.querySelectorAll(".tool").forEach(b=>b.classList.remove("active"));document.getElementById(mode==="text"?"modeText":mode==="point"?"modePoint":"modeAll").classList.add("active");localStorage.setItem("study_mode",mode);}
+function applyMode(){document.body.classList.remove("mode-text","mode-point");if(mode==="text")document.body.classList.add("mode-text");if(mode==="point")document.body.classList.add("mode-point");localStorage.setItem("study_mode",mode);}
 function renderHome(){
  const list=document.getElementById("lawList");list.innerHTML="";
  DATA.forEach((law,i)=>{
@@ -21,7 +21,6 @@ function renderHome(){
    row.innerHTML=`<div class="num">${i+1}</div><div><div class="law-title">${law.name}</div><div class="law-meta">学習済み ${learned}/${total}</div></div><div class="law-meta">${important} 重要 ›</div>`;
    row.addEventListener("click",()=>{currentLaw=i;renderArticles();show("lawScreen")});list.appendChild(row);
  });
- const jump=document.getElementById("jumpLaw");jump.innerHTML="";DATA.forEach((law,i)=>{const o=document.createElement("option");o.value=i;o.textContent=law.name;jump.appendChild(o)});
  renderProgress();applyMode();
 }
 function renderProgress(){
@@ -48,8 +47,8 @@ document.getElementById("nextBtn").addEventListener("click",()=>{const idx=flat.
 document.getElementById("backHome").addEventListener("click",()=>show("home"));document.getElementById("backSearchHome").addEventListener("click",()=>show("home"));
 document.getElementById("searchBtn").addEventListener("click",()=>document.getElementById("searchBar").classList.toggle("open"));
 function renderSearch(q){const box=document.getElementById("searchResults");box.innerHTML="";if(!q){show("home");return}const groups={};flat.filter(x=>(DATA[x.law].name+x.item.title+x.item.body+x.item.points.join("")+(x.item.traps||[]).join("")+(x.item.terms||[]).join("")).includes(q)).forEach(x=>{const cat=x.item.category||"その他";(groups[cat]||(groups[cat]=[])).push(x)});Object.keys(groups).forEach(cat=>{const h=document.createElement("h3");h.className="cat-title";h.textContent=cat+"（"+groups[cat].length+"）";box.appendChild(h);const list=document.createElement("div");list.className="cat-list";groups[cat].forEach(x=>{const row=document.createElement("div");row.className="article-row";row.innerHTML=`<span class="article-title ${isDone(x.law,x.article)?"done":""} ${isWeak(x.law,x.article)?"weak":""}">${DATA[x.law].name}　${x.item.title}</span><span class="stars">${x.item.importance||x.item.stars} ›</span>`;row.addEventListener("click",()=>openDetail(x.law,x.article));list.appendChild(row)});box.appendChild(list)});show("searchScreen");}
-document.getElementById("searchInput").addEventListener("input",e=>renderSearch(e.target.value.trim()));document.getElementById("homeSearchInput").addEventListener("input",e=>renderSearch(e.target.value.trim()));
-document.getElementById("modeAll").addEventListener("click",()=>{mode="all";applyMode()});document.getElementById("modeText").addEventListener("click",()=>{mode="text";applyMode()});document.getElementById("modePoint").addEventListener("click",()=>{mode="point";applyMode()});
-document.getElementById("jumpBtn").addEventListener("click",()=>{const li=Number(document.getElementById("jumpLaw").value), q=document.getElementById("jumpArticle").value.trim();const idx=DATA[li].articles.findIndex(a=>a.title.includes(q));if(idx>=0)openDetail(li,idx);});
+document.getElementById("searchInput").addEventListener("input",e=>renderSearch(e.target.value.trim()));
+
+
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}
 renderHome();
