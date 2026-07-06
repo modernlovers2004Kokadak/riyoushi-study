@@ -42,15 +42,35 @@ function renderProgress(){
 }
 function renderArticles(filter=""){
  const law=DATA[currentLaw];document.getElementById("lawTitle").textContent=law.name;const list=document.getElementById("articleList");list.innerHTML="";
- law.articles.forEach((a,i)=>{const hay=law.name+a.title+a.body+a.points.join("")+(a.traps||[]).join("")+(a.terms||[]).join("");if(filter&&!hay.includes(filter))return;const row=document.createElement("div");row.className="article-row";row.innerHTML=`<span class="article-title ${isDone(currentLaw,i)?"done":""} ${isWeak(currentLaw,i)?"weak":""} ${isBookmarked(currentLaw,i)?"bookmarked":""}">${a.title}</span><span class="stars">${a.importance||a.stars} ›</span>${actionButtons(currentLaw,i)}`;row.addEventListener("click",()=>openDetail(currentLaw,i));list.appendChild(row);});
+ law.articles.forEach((a,i)=>{const hay=law.name+a.title+a.body+a.points.join("")+(a.traps||[]).join("")+(a.terms||[]).join("");if(filter&&!hay.includes(filter))return;const row=document.createElement("div");row.className="article-row";row.innerHTML=`<span class="article-title ${isDone(currentLaw,i)?"done":""} ${isWeak(currentLaw,i)?"weak":""} ${isBookmarked(currentLaw,i)?"bookmarked":""}">${a.title}</span><span class="stars">${a.importance||a.stars} ›</span>${actionButtons(currentLaw,i)}`;row.addEventListener("click",()=>{
+  if(a.redirect){openDetail(a.redirect.law,a.redirect.article)}
+  else{openDetail(currentLaw,i)}
+});list.appendChild(row);});
  bindActionButtons(list);
 }
-function renderFilteredList(title,predicate){const box=document.getElementById("searchResults");box.innerHTML="";const h=document.querySelector("#searchScreen h2");if(h)h.textContent=title;const results=flat.filter(predicate);if(!results.length){box.innerHTML='<div class="empty">該当する項目はありません。</div>';}else{const list=document.createElement("div");list.className="cat-list";results.forEach(x=>{const row=document.createElement("div");row.className="article-row";row.innerHTML=`<span class="article-title ${isDone(x.law,x.article)?"done":""} ${isWeak(x.law,x.article)?"weak":""} ${isBookmarked(x.law,x.article)?"bookmarked":""}">${DATA[x.law].name}　${x.item.title}</span><span class="stars">${x.item.importance||x.item.stars} ›</span>${actionButtons(x.law,x.article)}`;row.addEventListener("click",()=>openDetail(x.law,x.article));list.appendChild(row)});box.appendChild(list);bindActionButtons(box);}show("searchScreen");}
+function renderFilteredList(title,predicate){const box=document.getElementById("searchResults");box.innerHTML="";const h=document.querySelector("#searchScreen h2");if(h)h.textContent=title;const results=flat.filter(predicate);if(!results.length){box.innerHTML='<div class="empty">該当する項目はありません。</div>';}else{const list=document.createElement("div");list.className="cat-list";results.forEach(x=>{const row=document.createElement("div");row.className="article-row";row.innerHTML=`<span class="article-title ${isDone(x.law,x.article)?"done":""} ${isWeak(x.law,x.article)?"weak":""} ${isBookmarked(x.law,x.article)?"bookmarked":""}">${DATA[x.law].name}　${x.item.title}</span><span class="stars">${x.item.importance||x.item.stars} ›</span>${actionButtons(x.law,x.article)}`;row.addEventListener("click",()=>{
+  if(x.item.redirect){openDetail(x.item.redirect.law,x.item.redirect.article)}
+  else{openDetail(x.law,x.article)}
+});list.appendChild(row)});box.appendChild(list);bindActionButtons(box);}show("searchScreen");}
 function openDetail(li,ai){
  currentLaw=li;currentArticle=ai;const law=DATA[li],a=law.articles[ai];document.getElementById("detailLaw").textContent=law.name+"　"+(a.category||"");document.getElementById("detailTitle").textContent=a.title;document.getElementById("detailStars").textContent=a.importance||a.stars;document.getElementById("detailBody").innerHTML=bodyHtml(a.body,a.terms||[]);
  let ul=document.getElementById("detailPoints");ul.innerHTML="";(a.points||[]).forEach(p=>{const item=document.createElement("li");item.innerHTML=highlight(p,a.terms||[]);ul.appendChild(item)});
  ul=document.getElementById("detailTraps");ul.innerHTML="";(a.traps||[]).forEach(p=>{const item=document.createElement("li");item.innerHTML=highlight(p,a.terms||[]);ul.appendChild(item)});
- const rel=document.getElementById("relatedLinks");rel.innerHTML="";(a.related||[]).forEach(r=>{const b=document.createElement("button");b.textContent=DATA[r.law].name;b.addEventListener("click",()=>{currentLaw=r.law;document.getElementById("detail").classList.add("hidden");renderArticles();show("lawScreen")});rel.appendChild(b)}); if(!(a.related||[]).length)rel.textContent="関連法令なし";
+ const rel=document.getElementById("relatedLinks");rel.innerHTML="";(a.related||[]).forEach(r=>{
+ const b=document.createElement("button");
+ b.textContent=r.label||DATA[r.law].name;
+ b.addEventListener("click",()=>{
+   if(Number.isInteger(r.article)){
+     openDetail(r.law,r.article);
+   }else{
+     currentLaw=r.law;
+     document.getElementById("detail").classList.add("hidden");
+     renderArticles();
+     show("lawScreen");
+   }
+ });
+ rel.appendChild(b)
+}); if(!(a.related||[]).length)rel.textContent="関連法令なし";
  updateButtons();applyMode();document.getElementById("detail").classList.remove("hidden");
 }
 function updateButtons(){const id=`${currentLaw}-${currentArticle}`;const btn=document.getElementById("markDone"), w=document.getElementById("weakBtn"), b=document.getElementById("bookmarkBtn");if(btn){btn.textContent=done.has(id)?"👍 学習済み":"👍 OK";btn.classList.toggle("done",done.has(id));}if(w){w.classList.toggle("on",weak.has(id));}if(b){b.textContent=bookmarks.has(id)?"🔖 保存中":"🔖 保存";b.classList.toggle("on",bookmarks.has(id));}}
