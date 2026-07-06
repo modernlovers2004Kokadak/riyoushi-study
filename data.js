@@ -1,6 +1,6 @@
 const DATA = [
   {
-    "name": "★★★★★ 最重要条文（Ｓランク）",
+    "name": "最重要条文（SSランク）",
     "color": "red",
     "articles": [
       {
@@ -483,7 +483,7 @@ const DATA = [
     ]
   },
   {
-    "name": "★★★★ 重要条文（Ａランク）",
+    "name": "重要条文（Sランク）",
     "color": "orange",
     "articles": [
       {
@@ -1924,7 +1924,7 @@ const DATA = [
     ]
   },
   {
-    "name": "★★★ 頻出条文（Ｂランク）",
+    "name": "頻出条文（Aランク）",
     "color": "blue",
     "articles": [
       {
