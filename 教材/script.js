@@ -37,6 +37,18 @@ function quizLinkFor(li, article){return `../過去問/index.html#cat=${encodeUR
 function quizCtaHtml(li, article, label='この分野の問題を解く'){
   return `<a class="material-link quiz-link" href="${quizLinkFor(li,article)}">📝 ${label}</a>`;
 }
+
+function rankLabel(value){
+  const v=String(value||'');
+  if(v.includes('★★★★★'))return {cls:'red',label:'最重要'};
+  if(v.includes('★★★★'))return {cls:'orange',label:'重要'};
+  if(v.includes('★★★'))return {cls:'green',label:'頻出'};
+  return {cls:'gray',label:'基本'};
+}
+function rankBadge(value){
+  const r=rankLabel(value);
+  return `<span class="rank-badge"><i class="rank-dot dot-${r.cls}"></i>${r.label}</span>`;
+}
 function openFromHash(){
   const hash=decodeURIComponent(location.hash||'');
   const m=hash.match(/law=(\d+)/);
@@ -71,9 +83,9 @@ function bindActionButtons(root=document){root.querySelectorAll(".done-toggle").
 function renderHome(){
  const list=document.getElementById("lawList");list.innerHTML="";
  DATA.forEach((law,i)=>{
-   const total=law.articles.length, learned=law.articles.filter((a,ai)=>isDone(i,ai)).length, important=law.articles.filter(a=>["★★★★★","★★★★","★★★"].includes(a.importance)).length;
+   const total=law.articles.length, learned=law.articles.filter((a,ai)=>isDone(i,ai)).length;
    const row=document.createElement("div");row.className=`law-row group-${law.color}`;
-   row.innerHTML=`<div class="num">${i+1}</div><div><div class="law-title">${law.name}</div><div class="law-meta">学習済み ${learned}/${total}</div></div><div class="law-meta">${important} 重要 ›</div>`;
+   row.innerHTML=`<div class="num">${i+1}</div><div class="law-main"><div class="law-title">${law.name}</div><div class="law-meta">学習済み ${learned}/${total}</div><a class="inline-quiz-link" href="${quizLinkFor(i,null)}" onclick="event.stopPropagation()">📝 この分野の問題を解く</a></div><div class="law-meta">${total}項目 ›</div>`;
    row.addEventListener("click",()=>{currentLaw=i;renderArticles();show("lawScreen")});list.appendChild(row);
  });
  renderProgress();renderHomeActions();applyMode();
@@ -146,7 +158,7 @@ function renderProgress(){
 
 function renderArticles(filter=""){
  const law=DATA[currentLaw];document.getElementById("lawTitle").textContent=law.name;const list=document.getElementById("articleList");list.innerHTML="";
- law.articles.forEach((a,i)=>{const hay=law.name+a.title+a.body+a.points.join("")+(a.traps||[]).join("")+(a.terms||[]).join("");if(filter&&!hay.includes(filter))return;const row=document.createElement("div");row.className="article-row";row.innerHTML=`<span class="article-title ${isDone(currentLaw,i)?"done":""} ${isWeak(currentLaw,i)?"weak":""} ${isBookmarked(currentLaw,i)?"bookmarked":""}">${a.title}</span><span class="stars">${a.importance||a.stars} ›</span>${actionButtons(currentLaw,i)}`;row.addEventListener("click",()=>{
+ law.articles.forEach((a,i)=>{const hay=law.name+a.title+a.body+a.points.join("")+(a.traps||[]).join("")+(a.terms||[]).join("");if(filter&&!hay.includes(filter))return;const row=document.createElement("div");row.className="article-row";row.innerHTML=`<span class="article-title ${isDone(currentLaw,i)?"done":""} ${isWeak(currentLaw,i)?"weak":""} ${isBookmarked(currentLaw,i)?"bookmarked":""}">${a.title}</span><span class="stars">${rankBadge(a.importance||a.stars)} ›</span>${actionButtons(currentLaw,i)}`;row.addEventListener("click",()=>{
   if(a.redirect){openDetail(a.redirect.law,a.redirect.article)}
   else{openDetail(currentLaw,i)}
 });list.appendChild(row);});
@@ -154,12 +166,12 @@ function renderArticles(filter=""){
  const cta=document.getElementById('fieldQuizCta');
  if(cta){cta.innerHTML=quizCtaHtml(currentLaw,null,'この分野の問題を解く');}
 }
-function renderFilteredList(title,predicate){const box=document.getElementById("searchResults");box.innerHTML="";const h=document.querySelector("#searchScreen h2");if(h)h.textContent=title;const results=flat.filter(predicate);if(!results.length){box.innerHTML='<div class="empty">該当する項目はありません。</div>';}else{const list=document.createElement("div");list.className="cat-list";results.forEach(x=>{const row=document.createElement("div");row.className="article-row";row.innerHTML=`<span class="article-title ${isDone(x.law,x.article)?"done":""} ${isWeak(x.law,x.article)?"weak":""} ${isBookmarked(x.law,x.article)?"bookmarked":""}">${DATA[x.law].name}　${x.item.title}</span><span class="stars">${x.item.importance||x.item.stars} ›</span>${actionButtons(x.law,x.article)}`;row.addEventListener("click",()=>{
+function renderFilteredList(title,predicate){const box=document.getElementById("searchResults");box.innerHTML="";const h=document.querySelector("#searchScreen h2");if(h)h.textContent=title;const results=flat.filter(predicate);if(!results.length){box.innerHTML='<div class="empty">該当する項目はありません。</div>';}else{const list=document.createElement("div");list.className="cat-list";results.forEach(x=>{const row=document.createElement("div");row.className="article-row";row.innerHTML=`<span class="article-title ${isDone(x.law,x.article)?"done":""} ${isWeak(x.law,x.article)?"weak":""} ${isBookmarked(x.law,x.article)?"bookmarked":""}">${DATA[x.law].name}　${x.item.title}</span><span class="stars">${rankBadge(x.item.importance||x.item.stars)} ›</span>${actionButtons(x.law,x.article)}`;row.addEventListener("click",()=>{
   if(x.item.redirect){openDetail(x.item.redirect.law,x.item.redirect.article)}
   else{openDetail(x.law,x.article)}
 });list.appendChild(row)});box.appendChild(list);bindActionButtons(box);}show("searchScreen");}
 function openDetail(li,ai){
- currentLaw=li;currentArticle=ai;const law=DATA[li],a=law.articles[ai];document.getElementById("detailLaw").textContent=law.name+"　"+(a.category||"");document.getElementById("detailTitle").textContent=a.title;document.getElementById("detailStars").textContent=a.importance||a.stars;document.getElementById("detailBody").innerHTML=bodyHtml(a.body,a.terms||[]);
+ currentLaw=li;currentArticle=ai;const law=DATA[li],a=law.articles[ai];document.getElementById("detailLaw").textContent=law.name+"　"+(a.category||"");document.getElementById("detailTitle").textContent=a.title;document.getElementById("detailStars").innerHTML=rankBadge(a.importance||a.stars);document.getElementById("detailBody").innerHTML=bodyHtml(a.body,a.terms||[]);
  let ul=document.getElementById("detailPoints");ul.innerHTML="";(a.points||[]).forEach(p=>{const item=document.createElement("li");item.innerHTML=highlight(p,a.terms||[]);ul.appendChild(item)});
  ul=document.getElementById("detailTraps");ul.innerHTML="";(a.traps||[]).forEach(p=>{const item=document.createElement("li");item.innerHTML=highlight(p,a.terms||[]);ul.appendChild(item)});
  const rel=document.getElementById("relatedLinks");rel.innerHTML="";(a.related||[]).forEach(r=>{
@@ -190,7 +202,7 @@ document.getElementById("prevBtn").addEventListener("click",()=>{const idx=flat.
 document.getElementById("nextBtn").addEventListener("click",()=>{const idx=flat.findIndex(x=>x.law===currentLaw&&x.article===currentArticle);if(idx<flat.length-1){const n=flat[idx+1];openDetail(n.law,n.article)}});
 document.getElementById("backHome").addEventListener("click",()=>show("home"));document.getElementById("backSearchHome").addEventListener("click",()=>{const h=document.querySelector("#searchScreen h2");if(h)h.textContent="検索結果";show("home")});
 document.getElementById("searchBtn").addEventListener("click",()=>document.getElementById("searchBar").classList.toggle("open"));
-function renderSearch(q){const box=document.getElementById("searchResults");box.innerHTML="";const h=document.querySelector("#searchScreen h2");if(h)h.textContent="検索結果";if(!q){show("home");return}const groups={};flat.filter(x=>(DATA[x.law].name+x.item.title+x.item.body+x.item.points.join("")+(x.item.traps||[]).join("")+(x.item.terms||[]).join("")).includes(q)).forEach(x=>{const cat=x.item.category||"その他";(groups[cat]||(groups[cat]=[])).push(x)});Object.keys(groups).forEach(cat=>{const h=document.createElement("h3");h.className="cat-title";h.textContent=cat+"（"+groups[cat].length+"）";box.appendChild(h);const list=document.createElement("div");list.className="cat-list";groups[cat].forEach(x=>{const row=document.createElement("div");row.className="article-row";row.innerHTML=`<span class="article-title ${isDone(x.law,x.article)?"done":""} ${isWeak(x.law,x.article)?"weak":""} ${isBookmarked(x.law,x.article)?"bookmarked":""}">${DATA[x.law].name}　${x.item.title}</span><span class="stars">${x.item.importance||x.item.stars} ›</span>${actionButtons(x.law,x.article)}`;row.addEventListener("click",()=>openDetail(x.law,x.article));list.appendChild(row)});box.appendChild(list);bindActionButtons(list)});show("searchScreen");}
+function renderSearch(q){const box=document.getElementById("searchResults");box.innerHTML="";const h=document.querySelector("#searchScreen h2");if(h)h.textContent="検索結果";if(!q){show("home");return}const groups={};flat.filter(x=>(DATA[x.law].name+x.item.title+x.item.body+x.item.points.join("")+(x.item.traps||[]).join("")+(x.item.terms||[]).join("")).includes(q)).forEach(x=>{const cat=x.item.category||"その他";(groups[cat]||(groups[cat]=[])).push(x)});Object.keys(groups).forEach(cat=>{const h=document.createElement("h3");h.className="cat-title";h.textContent=cat+"（"+groups[cat].length+"）";box.appendChild(h);const list=document.createElement("div");list.className="cat-list";groups[cat].forEach(x=>{const row=document.createElement("div");row.className="article-row";row.innerHTML=`<span class="article-title ${isDone(x.law,x.article)?"done":""} ${isWeak(x.law,x.article)?"weak":""} ${isBookmarked(x.law,x.article)?"bookmarked":""}">${DATA[x.law].name}　${x.item.title}</span><span class="stars">${rankBadge(x.item.importance||x.item.stars)} ›</span>${actionButtons(x.law,x.article)}`;row.addEventListener("click",()=>openDetail(x.law,x.article));list.appendChild(row)});box.appendChild(list);bindActionButtons(list)});show("searchScreen");}
 document.getElementById("searchInput").addEventListener("input",e=>renderSearch(e.target.value.trim()));
 
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}

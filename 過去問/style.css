@@ -62,3 +62,18 @@ b,strong{font-weight:400!important}
 
 
 .material-confirm-link{display:block;margin-top:16px;text-align:center;text-decoration:none;border:1px solid #bfdbfe;background:linear-gradient(135deg,#eff6ff,#fff);color:#1d4ed8;border-radius:14px;padding:14px 16px;font-size:15px}
+
+
+/* v2.2.0：戻る・ホームのフローティング操作 */
+.floating-nav{position:fixed;left:calc(14px + env(safe-area-inset-left));bottom:calc(14px + env(safe-area-inset-bottom));z-index:9999;display:grid;gap:8px}
+.floating-nav .floating-home,.floating-nav .floating-back{position:static;left:auto;bottom:auto;min-width:54px;height:54px;padding:0 14px;border-radius:999px;display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(255,255,255,.94);color:#0b355f;border:1px solid rgba(13,52,99,.14);box-shadow:0 10px 28px rgba(16,35,63,.18);text-decoration:none;font-size:23px;line-height:1;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.floating-nav .floating-back{cursor:pointer}
+.floating-nav .floating-home:active,.floating-nav .floating-back:active{transform:scale(.96)}
+.floating-nav .home-label{font-size:13px;color:#27415f;letter-spacing:.01em}
+@media(max-width:560px){.floating-nav .floating-home,.floating-nav .floating-back{width:52px;height:52px;min-width:52px;padding:0;font-size:22px}.floating-nav .home-label{display:none}}
+
+/* v2.2.0：問題カードの重要度表示 */
+.importance-badge{display:inline-flex;align-items:center;gap:6px;color:#536580;font-size:13px;line-height:1.25;white-space:nowrap}
+.question-card{position:relative;overflow:hidden}
+.question-card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:#94a3b8}
+.question-card.imp-red:before{background:#e84b4b}.question-card.imp-orange:before{background:#f59e0b}.question-card.imp-green:before{background:#22c55e}
