@@ -30,7 +30,7 @@ function materialUrl(q){
   const law=MATERIAL_LAW_BY_GROUP[gid];
   return Number.isInteger(law)?`../教材/index.html#law=${law}`:'../教材/index.html';
 }
-function materialCta(q){return `<a class="material-confirm-link" href="${materialUrl(q)}">📖 この内容を教材で確認する</a>`;}
+function materialCta(q){return `<a class="material-confirm-link" href="${materialUrl(q)}">📖 教材</a>`;}
 function initFromHash(){
   const hash=decodeURIComponent(location.hash||'');
   const m=hash.match(/cat=([^&]+)/);

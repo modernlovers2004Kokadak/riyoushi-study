@@ -77,3 +77,5 @@ b,strong{font-weight:400!important}
 .question-card{position:relative;overflow:hidden}
 .question-card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:#94a3b8}
 .question-card.imp-red:before{background:#e84b4b}.question-card.imp-orange:before{background:#f59e0b}.question-card.imp-green:before{background:#22c55e}
+
+h1,h2,h3,h4,.law .grow>span,.qtext,.importance-badge{font-weight:400!important}

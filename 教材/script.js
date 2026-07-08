@@ -34,7 +34,7 @@ function quizCategoryForLaw(li, article){
   return QUIZ_CATEGORY_BY_LAW[li]||'barber_act';
 }
 function quizLinkFor(li, article){return `../過去問/index.html#cat=${encodeURIComponent(quizCategoryForLaw(li,article))}`;}
-function quizCtaHtml(li, article, label='この分野の問題を解く'){
+function quizCtaHtml(li, article, label='問題'){
   return `<a class="material-link quiz-link" href="${quizLinkFor(li,article)}">📝 ${label}</a>`;
 }
 
@@ -85,7 +85,7 @@ function renderHome(){
  DATA.forEach((law,i)=>{
    const total=law.articles.length, learned=law.articles.filter((a,ai)=>isDone(i,ai)).length;
    const row=document.createElement("div");row.className=`law-row group-${law.color}`;
-   row.innerHTML=`<div class="num">${i+1}</div><div class="law-main"><div class="law-title">${law.name}</div><div class="law-meta">学習済み ${learned}/${total}</div><a class="inline-quiz-link" href="${quizLinkFor(i,null)}" onclick="event.stopPropagation()">📝 この分野の問題を解く</a></div><div class="law-meta">${total}項目 ›</div>`;
+   row.innerHTML=`<div class="num">${i+1}</div><div class="law-main"><div class="law-title">${law.name}</div><div class="law-meta">学習済み ${learned}/${total}</div><a class="inline-quiz-link" href="${quizLinkFor(i,null)}" onclick="event.stopPropagation()">問題 ›</a></div><div class="law-meta">${total}項目 ›</div>`;
    row.addEventListener("click",()=>{currentLaw=i;renderArticles();show("lawScreen")});list.appendChild(row);
  });
  renderProgress();renderHomeActions();applyMode();
@@ -164,7 +164,7 @@ function renderArticles(filter=""){
 });list.appendChild(row);});
  bindActionButtons(list);
  const cta=document.getElementById('fieldQuizCta');
- if(cta){cta.innerHTML=quizCtaHtml(currentLaw,null,'この分野の問題を解く');}
+ if(cta){cta.innerHTML=quizCtaHtml(currentLaw,null,'問題');}
 }
 function renderFilteredList(title,predicate){const box=document.getElementById("searchResults");box.innerHTML="";const h=document.querySelector("#searchScreen h2");if(h)h.textContent=title;const results=flat.filter(predicate);if(!results.length){box.innerHTML='<div class="empty">該当する項目はありません。</div>';}else{const list=document.createElement("div");list.className="cat-list";results.forEach(x=>{const row=document.createElement("div");row.className="article-row";row.innerHTML=`<span class="article-title ${isDone(x.law,x.article)?"done":""} ${isWeak(x.law,x.article)?"weak":""} ${isBookmarked(x.law,x.article)?"bookmarked":""}">${DATA[x.law].name}　${x.item.title}</span><span class="stars">${rankBadge(x.item.importance||x.item.stars)} ›</span>${actionButtons(x.law,x.article)}`;row.addEventListener("click",()=>{
   if(x.item.redirect){openDetail(x.item.redirect.law,x.item.redirect.article)}
@@ -190,7 +190,7 @@ function openDetail(li,ai){
  rel.appendChild(b)
 }); if(!(a.related||[]).length)rel.textContent="関連法令なし";
  const qcta=document.getElementById('detailQuizCta');
- if(qcta){qcta.innerHTML=quizCtaHtml(li,a,'この分野の問題を解く');}
+ if(qcta){qcta.innerHTML=quizCtaHtml(li,a,'問題');}
  updateButtons();applyMode();document.getElementById("detail").classList.remove("hidden");
 }
 function updateButtons(){const id=`${currentLaw}-${currentArticle}`;const btn=document.getElementById("markDone"), w=document.getElementById("weakBtn"), b=document.getElementById("bookmarkBtn");if(btn){btn.textContent=done.has(id)?"👍 学習済み":"👍 OK";btn.classList.toggle("done",done.has(id));}if(w){w.classList.toggle("on",weak.has(id));}if(b){b.textContent=bookmarks.has(id)?"🔖 保存中":"🔖 保存";b.classList.toggle("on",bookmarks.has(id));}}
