@@ -2,12 +2,48 @@
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>正答率</title><style>
 :root{--bg:#faf9f6;--card:#fff;--text:#171923;--muted:#555b66;--line:#e8e1f8;--purple:#5b3cc4;--shadow:0 8px 20px rgba(32,24,72,.10)}
 *{box-sizing:border-box}html{font-size:16px}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;background:var(--bg);color:var(--text);line-height:1.65;font-weight:400}.app{max-width:760px;margin:0 auto;min-height:100vh;background:#fff;box-shadow:0 8px 28px rgba(0,0,0,.08)}header{background:linear-gradient(135deg,#6748d8,#4c32b4);color:#fff;text-align:center;padding:24px 16px 22px}h1{font-size:1.65rem;line-height:1.35;margin:0;font-weight:400;letter-spacing:.04em}main{padding:22px 16px 28px}.back{display:inline-block;margin-bottom:14px;border:1.5px solid #d9cff5;background:#fff;border-radius:999px;padding:8px 14px;text-decoration:none;color:#4c32b4;font-size:15px;box-shadow:var(--shadow)}.grid{display:grid;gap:14px}.stat{display:block;border-radius:16px;background:var(--card);border:1.5px solid var(--line);box-shadow:var(--shadow);padding:16px}.title{font-size:1.12rem;line-height:1.4;margin-bottom:8px}.row{display:flex;justify-content:space-between;gap:10px;color:#424653}.bar{height:8px;background:#ece8f8;border-radius:999px;overflow:hidden;margin-top:10px}.bar span{display:block;height:100%;background:#5b3cc4;width:0%}.muted{color:var(--muted);font-size:.9rem;margin-top:18px}@media(max-width:520px){.app{box-shadow:none}header{padding:22px 12px 20px}h1{font-size:1.48rem}main{padding:18px 12px 24px}}
+
+
+/* 共通：フローティングホームボタン */
+.floating-home{
+  position:fixed;
+  left:calc(16px + env(safe-area-inset-left));
+  bottom:calc(18px + env(safe-area-inset-bottom));
+  z-index:9999;
+  min-width:54px;
+  height:54px;
+  padding:0 16px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  background:rgba(255,255,255,.94);
+  color:#0b355f;
+  border:1px solid rgba(13,52,99,.14);
+  box-shadow:0 10px 28px rgba(16,35,63,.18);
+  text-decoration:none;
+  font-size:23px;
+  line-height:1;
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+}
+.floating-home:active{transform:scale(.96)}
+.floating-home .home-label{font-size:13px;color:#27415f;letter-spacing:.01em}
+@media(max-width:560px){
+  .floating-home{left:14px;bottom:calc(14px + env(safe-area-inset-bottom));height:52px;min-width:52px;padding:0 14px;font-size:22px}
+  .floating-home .home-label{display:none}
+}
+/* 太字を使わない */
+b,strong{font-weight:400!important}
+
 </style></head><body><div class="app"><header><h1>⑥正答率</h1></header><main><a class="back" href="index.html">← 教材一覧に戻る</a><div class="grid" id="stats"></div><div class="muted">正答率はこのブラウザに自動保存されます。</div></main></div><script src="progress-manifest.js"></script><script>
 (function(){
 const NS='riyouStudy:v3:';
-const sections=[['①過去問・第１弾','過去問第１弾'],['②過去問・第１弾','過去問第２弾'],['③関連法規','関連法規'],['④衛生・保健','衛生保健'],['⑤理論・運営','理論運営']];
+const sections=[['①過去問・第1弾','過去問第1弾'],['②過去問・第1弾','過去問第2弾'],['③関連法規','関連法規'],['④衛生・保健','衛生保健'],['⑤理論・運営','理論運営']];
 function statFor(section){const pages=(window.PROGRESS_MANIFEST||[]).filter(x=>x.section===section);let total=0,answered=0,correct=0;pages.forEach(p=>{total+=p.total;for(let i=0;i<p.total;i++){try{const r=JSON.parse(localStorage.getItem(NS+p.path+':q'+i)||'{}');if(r.answered){answered++; if((r.correct||0)>0)correct++;}}catch(e){}}});const rate=answered?Math.round(correct/answered*100):0;return{total,answered,rate};}
 const root=document.getElementById('stats');
 root.innerHTML=sections.map(([label,key])=>{const s=statFor(key);return '<section class="stat"><div class="title">'+label+'</div><div class="row"><span>正答率</span><span>'+s.rate+'%</span></div><div class="row"><span>解答済み</span><span>'+s.answered+'/'+s.total+'問</span></div><div class="bar"><span style="width:'+s.rate+'%"></span></div></section>';}).join('');
 })();
-</script></body></html>
+</script><a class="floating-home" href="index.html" aria-label="ホームへ戻る">⌂<span class="home-label">ホーム</span></a>
+</body></html>
