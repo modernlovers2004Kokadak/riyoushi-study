@@ -1,5 +1,5 @@
 const CACHE_NAME="riyoushi-9laws-final-v6-thumb-ok-bookmark-rankfix2";
-const ASSETS=["./","./index.html","./style.css?v=6","./script.js?v=6","./data.js?v=6","./manifest.json"];
+const ASSETS=["./","./index.html","./style.css?v=7","./script.js?v=7","./data.js?v=7","./manifest.json"];
 self.addEventListener("install",event=>{
   self.skipWaiting();
   event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(ASSETS)));

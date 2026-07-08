@@ -55,17 +55,19 @@ function rankCounts(list){return {
   s:list.filter(q=>q.importance===4).length,
   a:list.filter(q=>q.importance<=3).length
 }}
+function weaknessName(key){
+  const gid=String(key||'').split(':')[0];
+  const c=CATEGORIES.find(x=>x.id===gid);
+  return c ? c.name : '苦手テーマ';
+}
 function weaknessRows(p){
   const rows=Object.entries(p.themeStats||{}).map(([k,s])=>{
     const total=(s.ok||0)+(s.ng||0);
-    return {name:k, total, rate:pct(s.ok||0,total), ng:s.ng||0};
-  }).filter(x=>x.total>0).sort((a,b)=>(b.ng-a.ng)||(a.rate-b.rate)).slice(0,3);
-  if(rows.length) return rows;
-  return [
-    {name:'感染症の分類', rate:42, ng:0},
-    {name:'消毒薬の種類と用途', rate:48, ng:0},
-    {name:'届出・申請先', rate:51, ng:0}
-  ];
+    return {name:weaknessName(k), total, rate:pct(s.ok||0,total), ng:s.ng||0};
+  }).filter(x=>x.total>0 && x.ng>0)
+    .sort((a,b)=>(b.ng-a.ng)||(a.rate-b.rate))
+    .slice(0,3);
+  return rows;
 }
 function renderProgress(){
   const p=prog();
@@ -93,12 +95,10 @@ function renderProgress(){
       <div class="hero-numbers"><div>学習済み<br><span>${done}問</span></div><div>全体<br><span>${total}問</span></div></div>
     </div>`;
   document.getElementById('progress-card').innerHTML=`
-    <div class="section-head"><h2><span class="mini-icon">▥</span>学習の進捗</h2></div>
-    <div class="stat-grid">
-      <div class="stat s-green"><span>教材進捗</span><em>65%</em><i><b style="width:65%"></b></i><small>教材集</small></div>
-      <div class="stat s-orange"><span>問題進捗</span><em>${donePct}%</em><i><b style="width:${donePct}%"></b></i><small>${done} / ${total}</small></div>
-      <div class="stat s-violet"><span>完全克服率</span><em>${masterPct}%</em><i><b style="width:${masterPct}%"></b></i><small>${mastered} / ${total}</small></div>
-      <div class="stat s-blue"><span>正答率</span><em>${correctPct}%</em><i><b style="width:${correctPct}%"></b></i><small>今日 ${p.daily?.[today()]?.try||0}問・今週 ${week}問</small></div>
+    <div class="progress-bars">
+      <div class="progress-bar-item"><div class="progress-bar-label"><span>問題進捗</span><em>${done} / ${total}</em></div><div class="progress-track"><i class="bar-blue" style="width:${donePct}%"></i></div></div>
+      <div class="progress-bar-item"><div class="progress-bar-label"><span>完全克服</span><em>${mastered} / ${total}</em></div><div class="progress-track"><i class="bar-green" style="width:${masterPct}%"></i></div></div>
+      <div class="progress-bar-item"><div class="progress-bar-label"><span>正答率</span><em>${correctPct}%</em></div><div class="progress-track"><i class="bar-orange" style="width:${correctPct}%"></i></div></div>
     </div>`;
   const palette=['#4f46e5','#4f46e5','#4f46e5','#4f46e5','#4f46e5','#4f46e5','#4f46e5','#06b6d4','#06b6d4','#ec4899','#a855f7','#22c55e','#eab308','#a47764','#36537f'];
   document.getElementById('category-card-list').innerHTML=CATEGORIES.map((c,i)=>{
@@ -106,16 +106,14 @@ function renderProgress(){
     const totalCount=counts.ss+counts.s+counts.a;
     return `<a class="category-card-row" href="過去問/index.html" aria-label="${c.name}">
       <span class="cat-num" style="background:${palette[i]||'#4f46e5'}">${i+1}</span>
-      <span class="cat-body"><span class="cat-title">${c.name}</span><small class="rank-lines"><span>🔴 最重要　${counts.ss}問</span><span>🟠 重要　${counts.s}問</span><span>🟢 頻出　${counts.a}問</span></small></span>
+      <span class="cat-body"><span class="cat-title">${c.name}</span><small class="rank-lines"><span><i class="rank-dot dot-red"></i>最重要　${counts.ss}問</span><span><i class="rank-dot dot-orange"></i>重要　${counts.s}問</span><span><i class="rank-dot dot-green"></i>頻出　${counts.a}問</span></small></span>
       <span class="cat-total">${totalCount}問 ›</span>
     </a>`
   }).join('');
   const wr=weaknessRows(p);
   document.getElementById('weak-card').innerHTML=`
     <div class="section-head"><h2><span class="flame">◆</span>苦手ランキング</h2><a href="過去問/index.html#mistakes">すべて見る ›</a></div>
-    <div class="weak-list">
-      ${wr.map((w,i)=>`<a class="weak-row" href="過去問/index.html#mistakes"><span class="rank r${i+1}">${i+1}</span><span>${w.name}</span><small>正答率 <em>${w.rate}%</em></small><span class="go">›</span></a>`).join('')}
-    </div>`;
+    ${wr.length ? `<div class="weak-list">${wr.map((w,i)=>`<a class="weak-row" href="過去問/index.html#mistakes"><span class="rank r${i+1}">${i+1}</span><span>${w.name}</span><small>正答率 <em>${w.rate}%</em></small><span class="go">›</span></a>`).join('')}</div>` : `<div class="empty-weak">まだ苦手データがありません</div>`}`;
 }
 function renderCategories(){}
 renderProgress();

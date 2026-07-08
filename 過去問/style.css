@@ -54,3 +54,11 @@ b,strong{font-weight:400!important}
 .material-link{display:block;text-align:center;text-decoration:none;margin-top:12px}
 .rank-lines{display:inline-flex;flex-direction:column;align-items:flex-start;gap:2px;line-height:1.45}
 .rank-lines span{display:block;white-space:nowrap}
+.rank-dot{display:inline-block;width:7px;height:7px;border-radius:999px;margin-right:6px;vertical-align:1px;flex:0 0 auto}
+.dot-red{background:#ef4444}
+.dot-orange{background:#f59e0b}
+.dot-green{background:#22c55e}
+.rank-lines span{display:flex;align-items:center}
+
+
+.material-confirm-link{display:block;margin-top:16px;text-align:center;text-decoration:none;border:1px solid #bfdbfe;background:linear-gradient(135deg,#eff6ff,#fff);color:#1d4ed8;border-radius:14px;padding:14px 16px;font-size:15px}

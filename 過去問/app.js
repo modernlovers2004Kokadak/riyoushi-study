@@ -21,6 +21,31 @@ const qById=id=>QUESTIONS.find(q=>q.id===Number(id));
 const memGroups=new Set(['infection','disinfection','public_health','skin','cosmetics','cut','shaving']);
 const memoryTarget=q=>memGroups.has(groupId(q))||['hygiene','health','chem','theory'].includes(q.subject);
 
+const MATERIAL_LAW_BY_GROUP={
+  barber_act:3, rules:4, order:5, visit:6, infection:7, community:8, consumer:10,
+  disinfection:12, public_health:12, skin:12, cosmetics:12, history:12, shop:12, cut:12, shaving:12
+};
+function materialUrl(q){
+  const gid=groupId(q);
+  const law=MATERIAL_LAW_BY_GROUP[gid];
+  return Number.isInteger(law)?`../教材/index.html#law=${law}`:'../教材/index.html';
+}
+function materialCta(q){return `<a class="material-confirm-link" href="${materialUrl(q)}">📖 この内容を教材で確認する</a>`;}
+function initFromHash(){
+  const hash=decodeURIComponent(location.hash||'');
+  const m=hash.match(/cat=([^&]+)/);
+  if(m){
+    const id=m[1];
+    const arr=qsCat(id);
+    if(arr.length){startSession(arr,'question');return;}
+  }
+  if(hash.includes('mistakes')){route('mistakes');return;}
+  if(hash.includes('review')){startDue();return;}
+  if(hash.includes('mock')){startSession(mockSession(),'question',true);return;}
+  render();
+}
+
+
 const POOLS={
  authority:['保健所長','保健所設置市長','都道府県知事','厚生労働大臣','指定試験機関','管理理容師','保健所','開設者'],
  deadline:['あらかじめ','速やかに','直ちに','10日以内','30日以内','7日以内','毎年7月31日まで','検査確認後'],
@@ -75,7 +100,7 @@ function route(page,extra={}){state={...state,page,...extra,selected:null,answer
 const circled=['①','②','③','④','⑤','⑥','⑦','⑧','⑨','⑩','⑪','⑫','⑬','⑭','⑮'];
 function rankName(q){return (q.importance||3)>=5?'SS':(q.importance||3)>=4?'S':'A'}
 function rankCounts(qs){const c={SS:0,S:0,A:0};qs.forEach(q=>c[rankName(q)]++);return c}
-function rankText(qs){const r=rankCounts(qs);return `<span class="rank-lines"><span>🔴 最重要　${r.SS}問</span><span>🟠 重要　${r.S}問</span><span>🟢 頻出　${r.A}問</span></span>`}
+function rankText(qs){const r=rankCounts(qs);return `<span class="rank-lines"><span><i class="rank-dot dot-red"></i>最重要　${r.SS}問</span><span><i class="rank-dot dot-orange"></i>重要　${r.S}問</span><span><i class="rank-dot dot-green"></i>頻出　${r.A}問</span></span>`}
 function header(title='理容師国家試験対策',back=false){return `<header class="top">${back?`<button onclick="route('home')">‹</button>`:`<span class="top-spacer"></span>`}<h1>${title}</h1><button onclick="route('search')">⌕</button></header>`}
 function bottom(active){return ``}
 function home(){const p=prog(),due=dueMistakes(p).length,unmaster=Object.values(p.mistakes||{}).filter(m=>!m.mastered).length;return `<main>${header()}<section class="content today-page"><div class="study-hero"><div class="study-title"><span class="study-icon"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 16c8-4 15-3 20 2v32c-5-5-12-6-20-2V16z"/><path d="M52 16c-8-4-15-3-20 2v32c5-5 12-6 20-2V16z"/></svg></span><div><h2>今日の学習</h2><i></i></div></div><p class="study-sub">最重要レベル4択・21問・分野とテーマを自動調整</p><button class="start-circle" onclick="startSession(smartSession(21),'question')"><span>▶</span><small>開始する</small></button></div><div class="summary-panel"><button class="summary-item sm-green" onclick="startDue()"><span class="summary-icon"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 16c8-4 15-3 20 2v32c-5-5-12-6-20-2V16z"/><path d="M52 16c-8-4-15-3-20 2v32c5-5 12-6 20-2V16z"/></svg></span><span>今日の復習</span><em>${due}問</em></button><button class="summary-item sm-orange" onclick="route('mistakes')"><span class="summary-icon"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M48 24a18 18 0 0 0-30-8l-5 5" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><path d="M13 11v10h10" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 40a18 18 0 0 0 30 8l5-5" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><path d="M51 53V43H41" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>間違い復習</span><em>${unmaster}問</em></button><button class="summary-item sm-blue" onclick="startSession(mockSession(),'question',true)"><span class="summary-icon"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M22 12h20v10a10 10 0 0 1-20 0V12z" fill="none" stroke="currentColor" stroke-width="6"/><path d="M22 18H12v5a12 12 0 0 0 12 12M42 18h10v5a12 12 0 0 1-12 12" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><path d="M32 32v12M24 52h16M20 56h24" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><path d="M32 17l2 4 4 .6-3 3 .7 4.4-3.7-2-3.7 2 .7-4.4-3-3 4-.6 2-4z"/></svg></span><span>模試</span><em>55問</em></button><button class="summary-item sm-violet" onclick="route('score')"><span class="summary-icon"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 8a24 24 0 1 0 24 24h-8a16 16 0 1 1-16-16V8z"/><path d="M32 22a10 10 0 1 0 10 10H32V22z" opacity=".45"/><path d="M43 9l3 9 9 3-10 5-5 10-3-9-9-3 10-5 5-10z"/></svg></span><span>完全克服率</span><em>${masterRate(p)}%</em></button></div><section class="problem-category-list">${CATEGORIES.map((c,i)=>catRow(c,i,p)).join('')}</section></section>${bottom('home')}</main>`}
@@ -87,7 +112,7 @@ function dueMistakes(p){return Object.values(p.mistakes||{}).filter(m=>!m.master
 function startDue(){const p=prog(),ids=dueMistakes(p).map(m=>m.id),arr=ids.map(qById).filter(Boolean);startSession(arr.length?arr:smartSession(10),'question')}
 function question(){let q=currentQ(),b=base(q),c=cat(b.gid),s=sub(q.subject),ci=state.view.choices.findIndex(x=>x.correct),ok=state.answered&&state.view.choices[state.selected]?.correct;return `<main>${header(`${state.mockEnd?'模試':'第'+(state.idx+1)+'問'} / ${state.session.length}問`,true)}${state.answered?`<div class="resultTop ${ok?'ok':'ng'}">${ok?'⭕':'❌'}<span>${ok?'正解':'不正解'}</span>${!ok?`<span>正解 ${jpNo[ci]} ${state.view.choices[ci].text}</span>`:''}</div>`:''}<section class="content questionContent"><div class="qcard"><div class="qmeta"><span>${s.name} ＞ ${c.name}</span><span>最重要・4択</span></div><p class="qtext">${b.question}</p>${state.view.choices.map((ch,i)=>choiceBtn(ch,i)).join('')}${!state.answered?`<button class="primary" onclick="answer()">解答する</button>`:''}</div>${state.answered?answerBox(q,ci,b):''}</section>${state.answered?`<div class="fixedNext"><button onclick="nextQ()">次へ</button></div>`:''}${bottom('today')}</main>`}
 function choiceBtn(ch,i){let cls='';if(state.selected===i)cls+=' sel';if(state.answered&&ch.correct)cls+=' ok';if(state.answered&&state.selected===i&&!ch.correct)cls+=' ng';return `<button class="choice ${cls}" onclick="select(${i})"><span>${jpNo[i]}</span>${ch.text}</button>`}
-function answerBox(q,ci,b){let mem=memoryTarget(q);return `<div class="qcard answer"><h2>${mem?'ここだけ覚える':'解説'}</h2><div class="point">${b.point}</div>${mem?memoryExplain(q,b):''}<details ${mem?'':'open'}><summary>詳しい解説</summary><p>${b.exp}</p><p class="hint">国家試験では、似た用語・数字・届出先を入れ替えた選択肢に注意します。</p></details></div>`}
+function answerBox(q,ci,b){let mem=memoryTarget(q);return `<div class="qcard answer"><h2>${mem?'ここだけ覚える':'解説'}</h2><div class="point">${b.point}</div>${mem?memoryExplain(q,b):''}<details ${mem?'':'open'}><summary>詳しい解説</summary><p>${b.exp}</p><p class="hint">国家試験では、似た用語・数字・届出先を入れ替えた選択肢に注意します。</p></details>${materialCta(q)}</div>`}
 function memoryExplain(q,b){const gid=groupId(q);let table='';if(gid==='infection')table='<div class="compare"><span>比較</span><span>一類：エボラ出血熱など</span><span>二類：結核など</span><span>三類：コレラなど</span></div>';if(gid==='cosmetics')table='<div class="compare"><span>比較</span><span>界面活性剤：洗浄・乳化</span><span>還元剤：パーマ第1剤</span><span>酸化剤：パーマ第2剤・染毛</span></div>';if(gid==='disinfection')table='<div class="compare"><span>比較</span><span>洗浄：汚れを落とす</span><span>消毒：微生物を減らす</span><span>血液付着：強めの消毒</span></div>';return `<div class="memo"><p><span>覚え方</span><br>${b.point}</p><p><span>ひっかけ</span><br>正解語と似た語を並べて迷わせる問題です。語尾まで確認します。</p><p><span>頻出度</span><br>★★★★★</p>${table}</div>`}
 function select(i){if(!state.answered){state.selected=i;render()}}
 function answer(){if(state.selected===null)return;record(currentQ(),!!state.view.choices[state.selected]?.correct);state.answered=true;render()}
@@ -95,11 +120,11 @@ function nextQ(){state.idx<state.session.length-1?route('question',{idx:state.id
 function mistakes(){const p=prog(),list=Object.values(p.mistakes||{}).filter(m=>state.filter==='all'||(state.filter==='due'&&!m.mastered&&m.nextReview&&m.nextReview<=today())||(state.filter==='unmastered'&&!m.mastered)||(state.filter==='mastered'&&m.mastered)||groupId(qById(m.id)||{})===state.filter).sort((a,b)=>(a.mastered-b.mastered)||(b.wrongCount-a.wrongCount));return `<main>${header('間違いノート',true)}<section class="content"><div class="tabs"><button onclick="state.filter='all';render()">すべて</button><button onclick="state.filter='due';render()">今日の復習</button><button onclick="state.filter='unmastered';render()">未克服</button><button onclick="state.filter='mastered';render()">克服済</button></div><div class="chips">${CATEGORIES.map(c=>`<button onclick="state.filter='${c.id}';render()">${c.name}</button>`).join('')}</div><div class="qcard"><h2>苦手ランキング</h2>${rankingList(p)}</div>${list.length?list.map(m=>mistakeRow(m)).join(''):'<div class="empty">該当する問題はありません。</div>'}</section>${bottom('mistake')}</main>`}
 function mistakeRow(m){const q=qById(m.id),b=base(q);return `<button class="law" onclick="startSession([qById(${m.id})],'question')"><span class="num">${m.mastered?'✓':'△'}</span><span class="grow"><span>${cat(b.gid).name}／${b.point}</span><small>ミス ${m.wrongCount}回　連続正解 ${m.streak||0}回　次回 ${m.nextReview||'通常'}</small></span><span>解く ›</span></button>`}
 function rankingCard(p){return `<div class="qcard"><h2>苦手ランキング</h2>${rankingList(p)}<button class="primary light" onclick="route('mistakes')">間違いノートへ</button></div>`}
-function rankingList(p){const map={};Object.values(p.mistakes||{}).forEach(m=>{if(m.mastered)return;const q=qById(m.id);if(!q)return;const b=base(q),k=b.point;map[k]=(map[k]||0)+m.wrongCount});const arr=Object.entries(map).sort((a,b)=>b[1]-a[1]).slice(0,5);return arr.length?arr.map((x,i)=>`<div class="rank"><span>${i+1}　${x[0]}</span><span>${x[1]}回</span></div>`).join(''):'<p class="muted">まだ苦手はありません。</p>'}
+function rankingList(p){const map={};Object.values(p.mistakes||{}).forEach(m=>{if(m.mastered)return;const q=qById(m.id);if(!q)return;const b=base(q),k=b.point;map[k]=(map[k]||0)+m.wrongCount});const arr=Object.entries(map).sort((a,b)=>b[1]-a[1]).slice(0,5);return arr.length?arr.map((x,i)=>`<div class="rank"><span>${i+1}　${x[0]}</span><span>${x[1]}回</span></div>`).join(''):'<p class="muted">まだ苦手データがありません</p>'}
 function score(){const p=prog(),h=p.history||[],ok=h.filter(x=>x.ok).length;return `<main>${header('進捗',true)}<section class="content">${progressCard(p)}<div class="qcard"><h2>正答率</h2><p class="score">${pct(ok,h.length)}%</p><p>${ok} / ${h.length}</p></div><h2>テーマ別正答率</h2>${Object.entries(p.themeStats||{}).slice(0,20).map(([k,v])=>`<div class="subject-row"><span>${themeName(k)}</span><span>${pct(v.ok,v.try)}%</span></div>`).join('')}</section>${bottom('score')}</main>`}
 function catScoreRow(c,i,p){let qs=qsCat(c.id),st=p.catStats?.[c.id]||{try:0,ok:0};return `<button class="subject-row" onclick="startSession(qsCat('${c.id}'),'question')"><span>${c.name}<small>${rankText(qs)}</small></span><span>正答率 ${pct(st.ok,st.try)}%</span></button>`}
 function themeName(k){const [gid,idx]=k.split(':'),q=QUESTIONS.find(x=>groupId(x)===gid&&String(templateIndex(x))===idx);return `${cat(gid).name}／${base(q||QUESTIONS[0]).point}`}
 function searchPage(){let t=state.search,qs=t?QUESTIONS.filter(q=>{let b=base(q);return (b.question+b.exp+b.point+cat(b.gid).name).includes(t)}):[];return `<main>${header('検索',true)}<section class="content"><input class="search" placeholder="キーワードで検索" value="${t}" oninput="state.search=this.value;render()">${qs.map(q=>{let b=base(q);return `<button class="law" onclick="startSession([qById(${q.id})],'question')"><span class="num">⌕</span><span class="grow"><span>${cat(b.gid).name}</span><small>${b.question}</small></span><span>›</span></button>`}).join('')}</section>${bottom('home')}</main>`}
 function settings(){return `<main>${header('設定',true)}<section class="content"><div class="qcard"><p>学習データはこの端末のブラウザに保存されます。</p><button class="danger" onclick="if(confirm('学習データを削除しますか？')){localStorage.removeItem(PREFIX+'prog');route('home')}">学習データをリセット</button></div></section>${bottom('settings')}</main>`}
 function render(){app.innerHTML=({home,question,mistakes,search:searchPage,score,settings}[state.page]||home)()}
-render();
+initFromHash();

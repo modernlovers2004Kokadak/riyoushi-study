@@ -8,6 +8,55 @@ const bookmarks=new Set(JSON.parse(localStorage.getItem(BOOKMARK_KEY)||"[]"));
 const flat=[];
 DATA.forEach((law,li)=>law.articles.forEach((a,ai)=>flat.push({law:li,article:ai,id:`${li}-${ai}`,item:a})));
 
+const QUIZ_CATEGORY_BY_LAW={
+  3:'barber_act',4:'rules',5:'order',6:'visit',7:'infection',8:'community',10:'consumer',
+  12:'disinfection'
+};
+function quizCategoryForLaw(li, article){
+  const law=DATA[li]||{};
+  const name=law.name||'';
+  const cat=(article&&article.category)||'';
+  const title=(article&&article.title)||'';
+  const text=name+' '+cat+' '+title;
+  if(text.includes('理容師法施行規則'))return 'rules';
+  if(text.includes('理容師法施行令'))return 'order';
+  if(text.includes('理容師法'))return 'barber_act';
+  if(text.includes('感染症'))return 'infection';
+  if(text.includes('地域保健')||text.includes('保健所'))return 'community';
+  if(text.includes('消費者'))return 'consumer';
+  if(text.includes('出張理容')||text.includes('出張美容'))return 'visit';
+  if(text.includes('衛生管理')||text.includes('消毒'))return 'disinfection';
+  if(text.includes('保健')||text.includes('皮膚')||text.includes('毛髪'))return 'skin';
+  if(text.includes('香粧品')||text.includes('化学'))return 'cosmetics';
+  if(text.includes('文化論')||text.includes('文化史'))return 'history';
+  if(text.includes('運営管理')||text.includes('店舗'))return 'shop';
+  if(text.includes('理容技術理論')||text.includes('カッティング'))return 'cut';
+  return QUIZ_CATEGORY_BY_LAW[li]||'barber_act';
+}
+function quizLinkFor(li, article){return `../過去問/index.html#cat=${encodeURIComponent(quizCategoryForLaw(li,article))}`;}
+function quizCtaHtml(li, article, label='この分野の問題を解く'){
+  return `<a class="material-link quiz-link" href="${quizLinkFor(li,article)}">📝 ${label}</a>`;
+}
+function openFromHash(){
+  const hash=decodeURIComponent(location.hash||'');
+  const m=hash.match(/law=(\d+)/);
+  if(m){
+    const li=Math.max(0,Math.min(DATA.length-1,Number(m[1])));
+    currentLaw=li;
+    renderArticles();
+    show('lawScreen');
+    return true;
+  }
+  const cat=hash.match(/cat=([^&]+)/);
+  if(cat){
+    const key=cat[1];
+    const idx=DATA.findIndex(l=>(l.name||'').includes(key));
+    if(idx>=0){currentLaw=idx;renderArticles();show('lawScreen');return true;}
+  }
+  return false;
+}
+
+
 function show(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active");window.scrollTo({top:0,behavior:"smooth"});}
 function save(){localStorage.setItem(DONE_KEY,JSON.stringify([...done]));localStorage.setItem(WEAK_KEY,JSON.stringify([...weak]));localStorage.setItem(BOOKMARK_KEY,JSON.stringify([...bookmarks]));renderHome();renderArticles();updateButtons();}
 function isDone(li,ai){return done.has(`${li}-${ai}`);} function isWeak(li,ai){return weak.has(`${li}-${ai}`);} function isBookmarked(li,ai){return bookmarks.has(`${li}-${ai}`);}
@@ -102,6 +151,8 @@ function renderArticles(filter=""){
   else{openDetail(currentLaw,i)}
 });list.appendChild(row);});
  bindActionButtons(list);
+ const cta=document.getElementById('fieldQuizCta');
+ if(cta){cta.innerHTML=quizCtaHtml(currentLaw,null,'この分野の問題を解く');}
 }
 function renderFilteredList(title,predicate){const box=document.getElementById("searchResults");box.innerHTML="";const h=document.querySelector("#searchScreen h2");if(h)h.textContent=title;const results=flat.filter(predicate);if(!results.length){box.innerHTML='<div class="empty">該当する項目はありません。</div>';}else{const list=document.createElement("div");list.className="cat-list";results.forEach(x=>{const row=document.createElement("div");row.className="article-row";row.innerHTML=`<span class="article-title ${isDone(x.law,x.article)?"done":""} ${isWeak(x.law,x.article)?"weak":""} ${isBookmarked(x.law,x.article)?"bookmarked":""}">${DATA[x.law].name}　${x.item.title}</span><span class="stars">${x.item.importance||x.item.stars} ›</span>${actionButtons(x.law,x.article)}`;row.addEventListener("click",()=>{
   if(x.item.redirect){openDetail(x.item.redirect.law,x.item.redirect.article)}
@@ -126,6 +177,8 @@ function openDetail(li,ai){
  });
  rel.appendChild(b)
 }); if(!(a.related||[]).length)rel.textContent="関連法令なし";
+ const qcta=document.getElementById('detailQuizCta');
+ if(qcta){qcta.innerHTML=quizCtaHtml(li,a,'この分野の問題を解く');}
  updateButtons();applyMode();document.getElementById("detail").classList.remove("hidden");
 }
 function updateButtons(){const id=`${currentLaw}-${currentArticle}`;const btn=document.getElementById("markDone"), w=document.getElementById("weakBtn"), b=document.getElementById("bookmarkBtn");if(btn){btn.textContent=done.has(id)?"👍 学習済み":"👍 OK";btn.classList.toggle("done",done.has(id));}if(w){w.classList.toggle("on",weak.has(id));}if(b){b.textContent=bookmarks.has(id)?"🔖 保存中":"🔖 保存";b.classList.toggle("on",bookmarks.has(id));}}
@@ -142,3 +195,4 @@ document.getElementById("searchInput").addEventListener("input",e=>renderSearch(
 
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}
 renderHome();
+openFromHash();

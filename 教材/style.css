@@ -54,3 +54,8 @@
 }
 /* 太字を使わない */
 b,strong{font-weight:400!important}
+
+
+.field-quiz-cta{margin:14px 0 28px}
+.quiz-link{display:block;text-align:center;text-decoration:none;border:1px solid #ffd6a8;background:linear-gradient(135deg,#fff8ef,#fff);color:#9a4b00;border-radius:16px;padding:14px 16px;box-shadow:0 6px 18px #0b2a5510;font-size:15px}
+.link-cta{border-color:#ffd6a8;background:linear-gradient(135deg,#fff8ef,#fff)}
