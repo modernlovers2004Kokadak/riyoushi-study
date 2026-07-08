@@ -1,14 +1,5 @@
-const CACHE_NAME="riyoushi-9laws-final-v6-thumb-ok-bookmark-rankfix2";
-const ASSETS=["./","./index.html","./style.css?v=6","./script.js?v=6","./data.js?v=6","./manifest.json"];
-self.addEventListener("install",event=>{
-  self.skipWaiting();
-  event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(ASSETS)));
-});
-self.addEventListener("activate",event=>{
-  event.waitUntil(
-    caches.keys().then(keys=>Promise.all(keys.map(k=>k===CACHE_NAME?null:caches.delete(k)))).then(()=>self.clients.claim())
-  );
-});
-self.addEventListener("fetch",event=>{
-  event.respondWith(fetch(event.request).catch(()=>caches.match(event.request)));
-});
+const CACHE='riyoshi-integrated-v09';
+const ASSETS=['./','./index.html','./style.css','./manifest.webmanifest','./教材/index.html','./過去問/index.html'];
+self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).catch(()=>{}));self.skipWaiting();});
+self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));self.clients.claim();});
+self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(res=>{const copy=res.clone();caches.open(CACHE).then(c=>c.put(e.request,copy)).catch(()=>{});return res;})).catch(()=>caches.match('./index.html')));});

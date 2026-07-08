@@ -2,115 +2,127 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>国家試験</title>
-<meta name="theme-color" content="#07356f">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>理容師国家試験</title>
+<meta name="theme-color" content="#eaf5ff">
 <meta name="apple-mobile-web-app-title" content="国家試験">
 <meta name="application-name" content="国家試験">
-<link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="style.css?v=6">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="app-header">
-  <div class="header-inner">
-    <h1>理容師国家試験対策</h1>
-    <button id="searchBtn" class="icon-btn" aria-label="検索">🔍</button>
-  </div>
-  <div class="search-bar" id="searchBar">
-    <input id="searchInput" type="search" placeholder="教材から検索">
-  </div>
-</header>
+<main class="app-shell">
+  <header class="hero-top">
+    <div class="title-banner">
+      <span class="brand-mark"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 16c8-4 15-3 20 2v32c-5-5-12-6-20-2V16z"/><path d="M52 16c-8-4-15-3-20 2v32c5-5 12-6 20-2V16z"/></svg></span>
+      <span class="hero-title">理容師国家試験対策</span>
+    </div>
+  </header>
 
-<main class="app">
-  <section id="home" class="screen active">
+  <section class="content">
+    <section class="hero-card" id="hero-card"></section>
 
-    <section class="home-section">
-      <h2>教材一覧</h2>
-      <div id="lawList" class="law-list"></div>
+    <section class="quick-grid">
+      <a class="quick q1" href="過去問/index.html"><span class="quick-icon"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M12 16c8-4 15-3 20 2v32c-5-5-12-6-20-2V16z"/><path d="M52 16c-8-4-15-3-20 2v32c5-5 12-6 20-2V16z"/></svg></span><span>今日の学習</span><small>１８問</small></a>
+      <a class="quick q2" href="過去問/index.html#review"><span class="quick-icon"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M48 24a18 18 0 0 0-30-8l-5 5" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><path d="M13 11v10h10" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 40a18 18 0 0 0 30 8l5-5" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><path d="M51 53V43H41" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>今日の復習</span><small id="due-mini">０問</small></a>
+      <a class="quick q3" href="過去問/index.html#mistakes"><span class="quick-icon"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M20 10h24a4 4 0 0 1 4 4v42L32 46 16 56V14a4 4 0 0 1 4-4z"/><path d="M34 18l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1 3-6z" opacity=".35"/></svg></span><span>間違い復習</span><small id="mistake-mini">０問</small></a>
+      <a class="quick q4" href="過去問/index.html#mock"><span class="quick-icon"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M22 12h20v10a10 10 0 0 1-20 0V12z" fill="none" stroke="currentColor" stroke-width="6"/><path d="M22 18H12v5a12 12 0 0 0 12 12M42 18h10v5a12 12 0 0 1-12 12" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><path d="M32 32v12M24 52h16M20 56h24" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><path d="M32 17l2 4 4 .6-3 3 .7 4.4-3.7-2-3.7 2 .7-4.4-3-3 4-.6 2-4z"/></svg></span><span>模試</span><small>５５問</small></a>
     </section>
 
-    <section class="home-section card progress">
-      <h2>学習の進捗</h2>
-      <div class="progress-content">
-        <div id="donut" class="donut"><span id="percent">0%</span><small>全体の進捗</small></div>
-        <dl class="progress-stats">
-          <dt>学習済み</dt><dd id="doneCount">0 / 0</dd>
-          <dt>未学習</dt><dd id="undoneCount">0</dd>
-          <dt>★★★★★ 最重要</dt><dd id="ssDone">0 / 0</dd>
-          <dt>★★★★ 重要</dt><dd id="sDone">0 / 0</dd>
-          <dt>★★★ 頻出</dt><dd id="aDone">0 / 0</dd>
-          <dt>🔖 要復習</dt><dd id="bookmarkCount">0</dd>
-          <dt>👍 完了</dt><dd id="okCount">0</dd>
-          <dt>学習済み教材</dt><dd id="doneLaws">0 / 13</dd>
-        </dl>
-      </div>
-      <div class="progress-extra">
-        <h3>教材別進捗</h3>
-        <div id="lawProgressList" class="progress-bars"></div>
-        <h3>分野別進捗</h3>
-        <div id="fieldProgressList" class="progress-bars"></div>
-      </div>
-      </div>
+    <section class="entry-grid">
+      <a class="entry-card study" href="教材/index.html"><span class="entry-ico"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M10 16c9-5 17-4 22 2v34c-5-6-13-7-22-2V16z"/><path d="M54 16c-9-5-17-4-22 2v34c5-6 13-7 22-2V16z"/></svg></span><span class="entry-text"><span>教材集</span><small>条文・解説を読む</small></span><span class="arrow">›</span></a>
+      <a class="entry-card quiz" href="過去問/index.html"><span class="entry-ico"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M20 10h24a5 5 0 0 1 5 5v39a5 5 0 0 1-5 5H20a5 5 0 0 1-5-5V15a5 5 0 0 1 5-5z"/><path d="M24 22h16M24 33h16M24 44h10" fill="none" stroke="#ff9a36" stroke-width="5" stroke-linecap="round"/></svg></span><span class="entry-text"><span>問題集</span><small>過去問で演習する</small></span><span class="arrow">›</span></a>
     </section>
-  </section>
 
-  <section id="lawScreen" class="screen">
-    <div class="screen-title">
-      <button class="back" id="backHome">‹</button>
-      <h2 id="lawTitle"></h2>
-    </div>
-    <p class="legend">★★★★★＝最重要　★★★★＝頻出　★★★＝重要　★★＝基本　★＝確認</p>
-    <div id="articleList" class="article-list"></div>
-  </section>
-
-  <section id="searchScreen" class="screen">
-    <div class="screen-title">
-      <button class="back" id="backSearchHome">‹</button>
-      <h2>検索結果</h2>
-    </div>
-    <div id="searchResults"></div>
+    <section class="progress-card" id="progress-card"></section>
+    <section class="category-card-list" id="category-card-list"></section>
+    <section class="weak-card" id="weak-card"></section>
   </section>
 </main>
 
-<section id="detail" class="detail hidden">
-  <div class="detail-header">
-    <button id="closeDetail">‹</button>
-    <h2 id="detailTitle"></h2>
-  </div>
-  <article class="article-card">
-    <div class="law-name" id="detailLaw"></div>
-    <div class="article-top">
-      <span id="detailStars" class="stars"></span>
-      <div>
-        <button id="weakBtn" class="weak-btn">苦手</button>
-        <button id="markDone" class="mark-btn">👍 OK</button>
-        <button id="bookmarkBtn" class="bookmark-btn">🔖 保存</button>
-      </div>
-    </div>
-    <section class="study-box text-section">
-      <span class="label blue">知識</span>
-      <div id="detailBody"></div>
-    </section>
-    <section class="study-box point-section">
-      <span class="label green">試験ポイント</span>
-      <ul id="detailPoints"></ul>
-    </section>
-    <section class="study-box point-section">
-      <span class="label orange">ひっかけポイント</span>
-      <ul id="detailTraps"></ul>
-    </section>
-    <section class="study-box point-section">
-      <span class="label gray">関連法令</span>
-      <div id="relatedLinks" class="related"></div>
-    </section>
-    <div class="article-nav">
-      <button id="prevBtn">‹ 前</button>
-      <button id="nextBtn">次 ›</button>
-    </div>
-  </article>
-</section>
-
-<script src="data.js?v=6"></script>
-<script src="script.js?v=6"></script>
+<script src="過去問/data.js"></script>
+<script>
+const PREFIX='riyo_v05_';
+const store={get:k=>JSON.parse(localStorage.getItem(PREFIX+k)||'null')};
+function baseProg(){return{done:{},history:[],mistakes:{},themeStats:{},catStats:{},daily:{},recentIds:[],recentThemes:[],settings:{todayCount:21,recentBlock:30,masterNeed:2}}}
+function prog(){return {...baseProg(),...(store.get('prog')||{})}}
+function pct(n,d){return d?Math.round(n/d*100):0}
+function today(){return new Date().toISOString().slice(0,10)}
+function lastNDays(n){const a=[];for(let i=0;i<n;i++){const d=new Date();d.setDate(d.getDate()-i);a.push(d.toISOString().slice(0,10))}return a}
+function catQuestions(id){return QUESTIONS.filter(q=>q.category===id)}
+function rankCounts(list){return {
+  ss:list.filter(q=>q.importance>=5).length,
+  s:list.filter(q=>q.importance===4).length,
+  a:list.filter(q=>q.importance<=3).length
+}}
+function weaknessRows(p){
+  const rows=Object.entries(p.themeStats||{}).map(([k,s])=>{
+    const total=(s.ok||0)+(s.ng||0);
+    return {name:k, total, rate:pct(s.ok||0,total), ng:s.ng||0};
+  }).filter(x=>x.total>0).sort((a,b)=>(b.ng-a.ng)||(a.rate-b.rate)).slice(0,3);
+  if(rows.length) return rows;
+  return [
+    {name:'感染症の分類', rate:42, ng:0},
+    {name:'消毒薬の種類と用途', rate:48, ng:0},
+    {name:'届出・申請先', rate:51, ng:0}
+  ];
+}
+function renderProgress(){
+  const p=prog();
+  const done=Object.keys(p.done||{}).length;
+  const h=p.history||[];
+  const ok=h.filter(x=>x.ok).length;
+  const wrong=Object.values(p.mistakes||{}).filter(m=>!m.mastered).length;
+  const due=Object.values(p.mistakes||{}).filter(m=>!m.mastered && (!m.nextReview || m.nextReview<=today())).length;
+  const week=lastNDays(7).reduce((a,d)=>a+(p.daily?.[d]?.try||0),0);
+  const total=QUESTIONS.length;
+  const donePct=pct(done,total);
+  const correctPct=pct(ok,h.length);
+  const target=Math.ceil(total*.8);
+  const remain=Math.max(0,target-done);
+  const mastered=Object.values(p.mistakes||{}).filter(m=>m.mastered).length;
+  const masterPct=pct(mastered,total);
+  document.getElementById('due-mini').textContent=due+'問';
+  document.getElementById('mistake-mini').textContent=wrong+'問';
+  document.getElementById('hero-card').innerHTML=`
+    <div class="ring big" style="--p:${donePct}"><span>${donePct}%</span><small>完了率</small></div>
+    <div class="hero-info">
+      <h2>今日の学習状況</h2>
+      <p>あと <span>${remain}問</span> で合格圏に到達します</p>
+      <div class="bar"><i style="width:${donePct}%"></i></div>
+      <div class="hero-numbers"><div>学習済み<br><span>${done}問</span></div><div>全体<br><span>${total}問</span></div></div>
+    </div>`;
+  document.getElementById('progress-card').innerHTML=`
+    <div class="section-head"><h2><span class="mini-icon">▥</span>学習の進捗</h2></div>
+    <div class="stat-grid">
+      <div class="stat s-green"><span>教材進捗</span><em>65%</em><i><b style="width:65%"></b></i><small>教材集</small></div>
+      <div class="stat s-orange"><span>問題進捗</span><em>${donePct}%</em><i><b style="width:${donePct}%"></b></i><small>${done} / ${total}</small></div>
+      <div class="stat s-violet"><span>完全克服率</span><em>${masterPct}%</em><i><b style="width:${masterPct}%"></b></i><small>${mastered} / ${total}</small></div>
+      <div class="stat s-blue"><span>正答率</span><em>${correctPct}%</em><i><b style="width:${correctPct}%"></b></i><small>今日 ${p.daily?.[today()]?.try||0}問・今週 ${week}問</small></div>
+    </div>`;
+  const palette=['#4f46e5','#4f46e5','#4f46e5','#4f46e5','#4f46e5','#4f46e5','#4f46e5','#06b6d4','#06b6d4','#ec4899','#a855f7','#22c55e','#eab308','#a47764','#36537f'];
+  document.getElementById('category-card-list').innerHTML=CATEGORIES.map((c,i)=>{
+    const counts=rankCounts(catQuestions(c.id));
+    const totalCount=counts.ss+counts.s+counts.a;
+    return `<a class="category-card-row" href="過去問/index.html" aria-label="${c.name}">
+      <span class="cat-num" style="background:${palette[i]||'#4f46e5'}">${i+1}</span>
+      <span class="cat-body"><span class="cat-title">${c.name}</span><small class="rank-lines"><span>🔴 最重要　${counts.ss}問</span><span>🟠 重要　${counts.s}問</span><span>🟢 頻出　${counts.a}問</span></small></span>
+      <span class="cat-total">${totalCount}問 ›</span>
+    </a>`
+  }).join('');
+  const wr=weaknessRows(p);
+  document.getElementById('weak-card').innerHTML=`
+    <div class="section-head"><h2><span class="flame">◆</span>苦手ランキング</h2><a href="過去問/index.html#mistakes">すべて見る ›</a></div>
+    <div class="weak-list">
+      ${wr.map((w,i)=>`<a class="weak-row" href="過去問/index.html#mistakes"><span class="rank r${i+1}">${i+1}</span><span>${w.name}</span><small>正答率 <em>${w.rate}%</em></small><span class="go">›</span></a>`).join('')}
+    </div>`;
+}
+function renderCategories(){}
+renderProgress();
+renderCategories();
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
+</script>
 </body>
 </html>
